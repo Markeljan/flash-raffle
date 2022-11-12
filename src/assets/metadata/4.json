@@ -1,0 +1,15 @@
+{
+  "attributes": [
+    {
+      "trait_type": "bg",
+      "value": "tix blue"
+    },
+    {
+      "trait_type": "top",
+      "value": "tix"
+    }
+  ],
+  "description": "FLASH Tix can be used to claim rewards at flashraffle.xyz",
+  "edition": 4,
+  "name": "Flash TIX #4"
+}

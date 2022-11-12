@@ -5,6 +5,8 @@ import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined
 import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
 import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
 import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
+import ShuffleOnOutlinedIcon from "@mui/icons-material/ShuffleOnOutlined";
+import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
 import Nav from "./components/Nav";
 
 function App() {
@@ -17,15 +19,8 @@ function App() {
         background: `linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)`,
         backgroundSize: "400%, 400%",
         animation: "gradient 15s ease infinite",
-        height: "100vh",
       }}
     >
-      {/* 
-      background-color: #302244;
-  border: 5px solid transparent;
-  border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
-  border-image-slice: 1;
-   */}
       <Nav />
       <Box display="flex" justifyContent="space-between" width="100%">
         <Box
@@ -46,7 +41,7 @@ function App() {
         >
           <Typography variant="h2" fontWeight={700}>
             <EmojiPeopleIcon sx={{ fontSize: "4rem" }} />
-            {} Buy TIX {}
+            {} Mint TIX {}
             <LocalActivityOutlinedIcon sx={{ fontSize: "4rem" }} />
           </Typography>
 
@@ -73,7 +68,7 @@ function App() {
         >
           <Typography variant="h2" fontWeight={700}>
             <HourglassTopOutlinedIcon sx={{ fontSize: "4rem" }} />
-            {} Wait for Raffle {}
+            {} Wait for a Raffle! {}
             <PublicIcon sx={{ fontSize: "4rem" }} />
           </Typography>
 
@@ -106,7 +101,36 @@ function App() {
         </Typography>
 
         <Typography variant="h5" fontWeight={500}>
-          Envelops contain a random value of TIX
+          Exchange TIX for envelopes to earn Crypto or Sponsor NFT's!
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          color: "#000000",
+          background: "#23A094",
+          py: 16,
+          width: "100%",
+          border: "5px solid transparent",
+          boxSizing: "border-box",
+          borderImage:
+            "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+          borderImageSlice: 1,
+        }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography variant="h2" fontWeight={700}>
+          <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
+          {} Current Draw {}
+          <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
+        </Typography>
+        <Typography variant="h5" fontWeight={500}>
+          game status...
+        </Typography>
+        <Typography variant="h4" fontWeight={500}>
+          ✉✉✉✉✉✉✉✉✉✉
         </Typography>
       </Box>
     </Box>

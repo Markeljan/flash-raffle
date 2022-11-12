@@ -1,0 +1,15 @@
+{
+  "attributes": [
+    {
+      "trait_type": "bg",
+      "value": "tix gold"
+    },
+    {
+      "trait_type": "top",
+      "value": "tix"
+    }
+  ],
+  "description": "FLASH Tix can be used to claim rewards at flashraffle.xyz",
+  "edition": 3,
+  "name": "Flash TIX #3"
+}
