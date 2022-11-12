@@ -14,8 +14,6 @@ function App() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-
-        pl: 0,
         background: `linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)`,
         backgroundSize: "400%, 400%",
         animation: "gradient 15s ease infinite",
@@ -59,7 +57,6 @@ function App() {
 
         <Box
           sx={{
-            fontSize: "4rem",
             color: "#E2442F",
             background: "#F1F333",
             p: 8,

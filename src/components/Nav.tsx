@@ -41,6 +41,8 @@ export default function Nav() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
+          position: "sticky",
+          top: 0,
           background: `#e73c7e`,
           border: "5px solid transparent",
           boxSizing: "border-box",
