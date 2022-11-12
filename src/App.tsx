@@ -20,15 +20,7 @@ function App() {
         height: "100vh",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <Nav />
-      </Box>
+      <Nav />
 
       <Box sx={{ justifyContent: "center", alignItems: "center" }}>
         <EmojiPeopleIcon fontSize="large" />

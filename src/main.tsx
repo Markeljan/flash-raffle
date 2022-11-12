@@ -69,7 +69,7 @@ const customTheme: any = {
     closeButton: "#ffffff",
     connectButtonText: "#ffffff",
     modalBackdrop: "rgba(0, 0, 0, 0.5)",
-    modalBackground: "rgba(0, 0, 0, 0.5)",
+    modalBackground: "#e73c7e",
     modalBorder: "#ffffff",
     modalText: "#ffffff",
     modalTextDim: "#ffffff",
