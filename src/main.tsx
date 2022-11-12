@@ -5,7 +5,12 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  metaMaskWallet,
+  injectedWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import altlayer from "/src/assets/altlayer.ico";
@@ -30,10 +35,15 @@ export const altLayerDevnet = {
 
 const { provider } = configureChains([altLayerDevnet], [publicProvider() as any]);
 
-const { connectors } = getDefaultWallets({
-  appName: "Flash Raffle",
-  chains: [altLayerDevnet],
-});
+const connectors = connectorsForWallets([
+  {
+    groupName: "Supported Wallets",
+    wallets: [
+      injectedWallet({ chains: [altLayerDevnet] }),
+      metaMaskWallet({ chains: [altLayerDevnet] }),
+    ],
+  },
+]);
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -41,9 +51,38 @@ const wagmiClient = createClient({
   provider,
 });
 
+const customTheme: any = {
+  fonts: {
+    body: "Roboto, sans-serif",
+  },
+  radii: {
+    actionButton: "0px",
+    connectButton: "0px",
+    menuButton: "0px",
+    modal: "0px",
+    modalMobile: "0px",
+  },
+  colors: {
+    accentColor: "#e73c7e",
+    accentColorForeground: "#ffffff",
+    actionButtonBorder: "#ffffff",
+    closeButton: "#ffffff",
+    connectButtonText: "#ffffff",
+    modalBackdrop: "rgba(0, 0, 0, 0.5)",
+    modalBackground: "rgba(0, 0, 0, 0.5)",
+    modalBorder: "#ffffff",
+    modalText: "#ffffff",
+    modalTextDim: "#ffffff",
+    menuItemBackground: "#ffffff",
+    modalTextSecondary: "#ffffff",
+    selectedOptionBorder: "#ffffff",
+    standby: "#ffffff",
+  },
+};
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <WagmiConfig client={wagmiClient}>
-    <RainbowKitProvider chains={[altLayerDevnet]} coolMode>
+    <RainbowKitProvider chains={[altLayerDevnet]} coolMode theme={customTheme}>
       <App />
     </RainbowKitProvider>
   </WagmiConfig>

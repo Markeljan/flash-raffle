@@ -2,6 +2,7 @@ import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import PublicIcon from "@mui/icons-material/Public";
 import { Box } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Nav from "./components/Nav";
 
 function App() {
   return (
@@ -9,19 +10,26 @@ function App() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "center",
-        pr: 2,
         gap: 4,
+        p: 2,
+        background: `linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)`,
+        backgroundSize: "400%, 400%",
+        animation: "gradient 15s ease infinite",
+        height: "100vh",
       }}
     >
       <Box
         sx={{
           display: "flex",
-          justifyContent: "right",
+          justifyContent: "space-between",
           width: "100%",
         }}
       >
+        <Box>
+          <Nav />
+        </Box>
         <ConnectButton />
       </Box>
 
