@@ -47,14 +47,31 @@ contract FlashRaffle is
     Raffle[] public rafflesArray;
     Envelope[] public envelopesArray;
 
+    string[] tixUris = [
+        "https://bafybeicuf2uiuqiy7jgvlgofozgaqm7fnm7mva3i3bcnrymdmrp6yyvthm.ipfs.nftstorage.link/1.json",
+        "https://bafybeicuf2uiuqiy7jgvlgofozgaqm7fnm7mva3i3bcnrymdmrp6yyvthm.ipfs.nftstorage.link/2.json",
+        "https://bafybeicuf2uiuqiy7jgvlgofozgaqm7fnm7mva3i3bcnrymdmrp6yyvthm.ipfs.nftstorage.link/3.json",
+        "https://bafybeicuf2uiuqiy7jgvlgofozgaqm7fnm7mva3i3bcnrymdmrp6yyvthm.ipfs.nftstorage.link/4.json"
+    ];
+
     constructor() ERC721("FlashTIX", "TIX") {}
 
-    function safeMint(address to, string memory uri) public payable onlyOwner {
-        require(msg.value >= 0.0001 ether, "Not enough ALT sent");
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
+    function safeMint(address to) public payable {
+        require(msg.value == 1 ether, "Not enough ALT sent");
+
+        //mint 5x TIX nfts
+        for (uint256 i = 0; i < 5; i++) {
+            _tokenIdCounter.increment();
+            uint256 tokenId = _tokenIdCounter.current();
+            _safeMint(to, tokenId);
+
+            //random number from 0 to 3
+            uint256 randomIndex = uint256(
+                keccak256(abi.encodePacked(block.timestamp, tokenId))
+            ) % tixUris.length;
+
+            _setTokenURI(tokenId, tixUris[randomIndex]);
+        }
 
         createEnvelopes((msg.value * 90) / 100);
         jackpotValue += (msg.value * 10) / 100;
@@ -64,7 +81,7 @@ contract FlashRaffle is
         // require that the current raffle is not active.
         require(
             raffleIdToRaffle[currentRaffleId].status != Status.active,
-            "Current raffle is not ended"
+            "There's already a raffle active!"
         );
 
         //get 5 random envelopes from the envelopes array with status idle and add them to a new raffle
@@ -146,20 +163,20 @@ contract FlashRaffle is
             envelopeIdToEnvelope[envelopesArray.length + 1] = newEnvelope;
             envelopesArray.push(newEnvelope);
         }
+        createRaffle();
     }
 
-    function burnTIX() public {
+    function claimTIX(uint256 _tokenId) public returns (uint256[2] memory) {
         //require that the current raffle is active
         require(
             raffleIdToRaffle[currentRaffleId].status == Status.active,
             "Current raffle is not active"
         );
 
-        //require that the sender owns a TIX token
-        require(balanceOf(msg.sender) > 0, "You do not own a TIX token");
+        require(msg.sender == ownerOf(_tokenId), "You do not own this TIX");
 
         //burn the TIX token
-        _burn(tokenOfOwnerByIndex(msg.sender, 0));
+        _burn(_tokenId);
 
         //set the status of a random envelope in the current raffle to ended
         uint256 randomEnvelopeId = raffleIdToRaffle[currentRaffleId]
@@ -201,7 +218,7 @@ contract FlashRaffle is
             envelopeIdToEnvelope[randomEnvelopeId].value
         );
 
-        //random chance one in 1000 to win the jackpot
+        //random chance one in 100 to win the jackpot
         if (
             uint256(
                 keccak256(
@@ -212,12 +229,16 @@ contract FlashRaffle is
                     )
                 )
             ) %
-                1000 ==
+                100 ==
             0
         ) {
             payable(msg.sender).transfer(jackpotValue);
             jackpotValue = 0;
+            return (
+                [envelopeIdToEnvelope[randomEnvelopeId].value, jackpotValue]
+            );
         }
+        return ([envelopeIdToEnvelope[randomEnvelopeId].value, 0]);
     }
 
     function getAvailableBalance() public view returns (uint256) {

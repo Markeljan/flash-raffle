@@ -1,15 +1,12 @@
 {
   "attributes": [
     {
-      "trait_type": "bg",
-      "value": "tix green"
-    },
-    {
-      "trait_type": "top",
-      "value": "tix"
+      "trait_type": "color",
+      "value": "green"
     }
   ],
   "description": "FLASH Tix can be used to claim rewards at flashraffle.xyz",
   "edition": 2,
-  "name": "Flash TIX #2"
+  "name": "Flash TIX green",
+  "image": "https://bafybeic6oj3iwyxwqcjjtyv7p7foxgkywx5hfa6xfncfegsgkfjnf3zpge.ipfs.nftstorage.link/2.png"
 }
