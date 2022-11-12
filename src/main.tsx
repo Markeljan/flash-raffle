@@ -8,6 +8,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
+import altlayer from "/src/assets/altlayer.ico";
 
 export const altLayerDevnet = {
   id: 9990,
@@ -23,7 +24,7 @@ export const altLayerDevnet = {
       url: "https://devnet-explorer.altlayer.io/",
     },
   },
-  iconUrl: "src/assets/altlayer.ico",
+  iconUrl: altlayer,
   testnet: true,
 };
 
