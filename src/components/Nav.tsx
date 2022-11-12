@@ -1,5 +1,6 @@
 import { Box, Typography, Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const theme = createTheme({
   palette: {
@@ -19,10 +20,15 @@ const theme = createTheme({
           textTransform: "none",
           fontWeight: 700,
           fontSize: "1.8rem",
-          padding: "0.5rem 1rem",
+          padding: "1rem 2rem",
           "&:hover": {
             backgroundColor: "#ffffff",
             color: "#000000",
+          },
+
+          "&:active": {
+            backgroundColor: "#e73c7e",
+            color: "#e73c7e",
           },
         },
       },
@@ -33,10 +39,21 @@ const theme = createTheme({
 export default function Nav() {
   return (
     <ThemeProvider theme={theme}>
-      <Box display={"flex"} justifyContent="space-between">
-        <Button color="primary">Home</Button>
-        <Button color="primary">About</Button>
-        <Button color="primary">Contact</Button>
+      <Box
+        sx={{ background: `#e73c7e` }}
+        display={"flex"}
+        justifyContent="space-between"
+        width={"100%"}
+      >
+        <Box display={"flex"}>
+          <Button color="primary">FLASH RAFFLE</Button>
+          <Button color="primary">Home</Button>
+          <Button color="primary">Info</Button>
+        </Box>
+
+        <Box display={"flex"} justifyContent="flex-end" alignItems="center" px={2}>
+          <ConnectButton />
+        </Box>
       </Box>
     </ThemeProvider>
   );
