@@ -73,7 +73,6 @@ const customTheme: any = {
     modalBorder: "#ffffff",
     modalText: "#ffffff",
     modalTextDim: "#ffffff",
-    menuItemBackground: "#ffffff",
     modalTextSecondary: "#ffffff",
     selectedOptionBorder: "#ffffff",
     standby: "#ffffff",

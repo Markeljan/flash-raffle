@@ -1,7 +1,10 @@
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import PublicIcon from "@mui/icons-material/Public";
 import { Box, Typography } from "@mui/material";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
+import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
+import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
+import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
 import Nav from "./components/Nav";
 
 function App() {
@@ -33,6 +36,10 @@ function App() {
             background: "#000000",
             p: 8,
             width: "50%",
+            border: "5px solid transparent",
+            borderImage:
+              "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+            borderImageSlice: 1,
           }}
           display="flex"
           flexDirection="column"
@@ -41,8 +48,8 @@ function App() {
         >
           <Typography variant="h2" fontWeight={700}>
             <EmojiPeopleIcon sx={{ fontSize: "4rem" }} />
-            Buy TIX
-            <PublicIcon sx={{ fontSize: "4rem" }} />
+            {} Buy TIX {}
+            <LocalActivityOutlinedIcon sx={{ fontSize: "4rem" }} />
           </Typography>
 
           <Typography variant="h5" fontWeight={500}>
@@ -57,6 +64,10 @@ function App() {
             background: "#F1F333",
             p: 8,
             width: "50%",
+            border: "5px solid transparent",
+            borderImage:
+              "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+            borderImageSlice: 1,
           }}
           display="flex"
           flexDirection="column"
@@ -64,9 +75,9 @@ function App() {
           alignItems="center"
         >
           <Typography variant="h2" fontWeight={700}>
+            <HourglassTopOutlinedIcon sx={{ fontSize: "4rem" }} />
+            {} Wait for Raffle {}
             <PublicIcon sx={{ fontSize: "4rem" }} />
-            Wait for Raffle
-            <EmojiPeopleIcon sx={{ fontSize: "4rem" }} />
           </Typography>
 
           <Typography variant="h5" fontWeight={500}>
@@ -78,8 +89,13 @@ function App() {
         sx={{
           color: "#000000",
           background: "#90A8ED",
-          p: 8,
+          py: 8,
           width: "100%",
+          border: "5px solid transparent",
+          boxSizing: "border-box",
+          borderImage:
+            "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+          borderImageSlice: 1,
         }}
         display="flex"
         flexDirection="column"
@@ -87,9 +103,9 @@ function App() {
         alignItems="center"
       >
         <Typography variant="h2" fontWeight={700}>
-          <PublicIcon sx={{ fontSize: "4rem" }} />
-          Open Envelopes!
-          <EmojiPeopleIcon sx={{ fontSize: "4rem" }} />
+          <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
+          {} Open Envelopes! {}
+          <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
         </Typography>
 
         <Typography variant="h5" fontWeight={500}>
