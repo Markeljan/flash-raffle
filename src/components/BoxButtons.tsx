@@ -1,4 +1,4 @@
-import { Box, ThemeProvider, Typography } from "@mui/material";
+import { Box, LinearProgress, ThemeProvider, Typography } from "@mui/material";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import PublicIcon from "@mui/icons-material/Public";
 import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
@@ -8,14 +8,21 @@ import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
 import ShuffleOnOutlinedIcon from "@mui/icons-material/ShuffleOnOutlined";
 import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { boxTheme } from "../utils/boxButtonTheme";
 
 export default function BoXButtons() {
-  const { mintPrice, jackpot } = useContext(MainContext);
+  const { mintPrice, jackpot, address, FLASH_RAFFLE_WRITE, addTx, setLatestTxHash } =
+    useContext(MainContext);
+
   const mintPriceHuman = mintPrice / 10 ** 18;
   const jackpotHuman = jackpot / 10 ** 18;
+
+  async function handleMint() {
+    const tx = await FLASH_RAFFLE_WRITE.safeMint(address, { value: mintPrice });
+    setLatestTxHash(tx.hash);
+  }
 
   return (
     <ThemeProvider theme={boxTheme}>
@@ -44,7 +51,7 @@ export default function BoXButtons() {
               zIndex: 1,
             },
           }}
-          onClick={() => console.log("clicked")}
+          onClick={handleMint}
           component="button"
           display="flex"
           flexDirection="column"
@@ -144,6 +151,10 @@ export default function BoXButtons() {
           <Typography variant="h5" fontWeight={500}>
             Burn TIX to open an envelope
           </Typography>
+
+          <Typography variant="h5" fontWeight={500}>
+            0? Tix 🔥ed.
+          </Typography>
         </Box>
 
         <Box
@@ -183,11 +194,11 @@ export default function BoXButtons() {
           </Typography>
 
           <Typography variant="h5" fontWeight={500}>
-            🔥 TIX for envelopes to earn Crypto or Sponsor NFT's!
+            Envelope history
           </Typography>
 
           <Typography variant="h5" fontWeight={500}>
-            Claimable envelopes: {"envelopes"}
+            [array of envelope rewards] {"envelopes"}
           </Typography>
         </Box>
       </Box>

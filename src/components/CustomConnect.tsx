@@ -1,4 +1,4 @@
-import { Box, Button, ThemeProvider } from "@mui/material";
+import { Button, ThemeProvider } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { theme } from "../utils/buttonTheme";
 

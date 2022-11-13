@@ -34,6 +34,7 @@ contract FlashRaffle is
     }
 
     mapping(uint256 => Envelope) private envelopeIdToEnvelope;
+    mapping(address => uint256) public addressToBurnedTIX;
 
     Envelope[] private envelopesArray;
 
@@ -123,6 +124,7 @@ contract FlashRaffle is
 
         //burn the TIX token
         _burn(_tokenId);
+        addressToBurnedTIX[msg.sender] += 1;
 
         //get a random envelope from the active envelopes
         uint256 randomEnvelopeId = (uint256(

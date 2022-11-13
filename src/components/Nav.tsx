@@ -1,9 +1,12 @@
-import { Box, Button } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Box, Button, LinearProgress, Stack } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import { CustomConnect } from "./CustomConnect";
 import { theme } from "../utils/buttonTheme";
+import { useContext } from "react";
+import { MainContext } from "../contexts/MainContext";
 
 export default function Nav() {
+  const { isLoading } = useContext(MainContext);
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -19,15 +22,27 @@ export default function Nav() {
           zIndex: 100,
         }}
         display={"flex"}
+        flexDirection={"column"}
         justifyContent="space-between"
         width={"100%"}
       >
-        <Box display={"flex"}>
-          <Button color="primary">FLASH RAFFLE</Button>
-          <Button color="primary">Info</Button>
-        </Box>
+        {isLoading ? (
+          <Stack sx={{ width: "100%" }}>
+            <LinearProgress color="secondary" />
+            <LinearProgress color="secondary" />
+          </Stack>
+        ) : (
+          ""
+        )}
 
-        <CustomConnect />
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box display={"flex"}>
+            <Button color="primary">FLASH RAFFLE</Button>
+            <Button color="primary">Info</Button>
+          </Box>
+
+          <CustomConnect />
+        </Box>
       </Box>
     </ThemeProvider>
   );

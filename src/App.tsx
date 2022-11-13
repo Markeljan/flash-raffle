@@ -2,12 +2,13 @@ import { Box } from "@mui/material";
 import Nav from "./components/Nav";
 import BoxButtons from "./components/BoxButtons";
 import { FLASH_RAFFLE_ABI, FLASH_RAFFLE_ADDRESS } from "./constants/contractData";
-import { useContract, useProvider, useSigner } from "wagmi";
+import { useAccount, useContract, useProvider, useSigner, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import { MainContext } from "./contexts/MainContext";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
 function App() {
+  const { address } = useAccount();
   const provider = useProvider();
   const { data: signer } = useSigner();
   const FLASH_RAFFLE_READ = useContract({
@@ -21,19 +22,49 @@ function App() {
     signerOrProvider: signer,
   });
 
+  const [latestTxHash, setLatestTxHash] = useState<any>();
+  const { data, isError, isLoading } = useWaitForTransaction({
+    hash: latestTxHash,
+  });
   const addTx = useAddRecentTransaction();
 
   const [mintPrice, setMintPrice] = useState(0);
   const [jackpot, setJackpot] = useState(0);
 
+  useEffect(() => {
+    console.log("data", data);
+    console.log("isError", isError);
+    console.log("isLoading", isLoading);
+  }, [data, isError, isLoading]);
+
   const contextData = {
+    address,
     FLASH_RAFFLE_READ,
     FLASH_RAFFLE_WRITE,
-    addTx,
 
+    addTx,
+    data,
+    isError,
+    isLoading,
+
+    latestTxHash,
+    setLatestTxHash,
     mintPrice,
     jackpot,
   };
+
+  useEffect(() => {
+    if (data && !isError) {
+      setLatestTxHash(data?.transactionHash);
+    }
+
+    if (data && latestTxHash) {
+      addTx({
+        hash: latestTxHash,
+        description: latestTxHash,
+      });
+    }
+  }, [data]);
 
   useEffect(() => {
     async function fetchContractData() {
@@ -51,11 +82,6 @@ function App() {
     FLASH_RAFFLE_READ && fetchContractData();
   }, [FLASH_RAFFLE_WRITE]);
 
-  useEffect(() => {
-    console.log("mintPrice", mintPrice);
-    console.log("jackpot", jackpot);
-  }, [mintPrice, jackpot]);
-
   return (
     <Box
       sx={{
@@ -69,8 +95,8 @@ function App() {
         margin: "0 auto",
       }}
     >
-      <Nav />
       <MainContext.Provider value={contextData}>
+        <Nav />
         <BoxButtons />
       </MainContext.Provider>
     </Box>
