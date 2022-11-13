@@ -65,11 +65,7 @@ contract FlashRaffle is
 
         createEnvelopes((msg.value * 90) / 100);
         jackpotValue += (msg.value * 10) / 100;
-        if (jackpotValue > 0) {
-            mintPrice = (mintPrice * 110) / 100;
-        } else {
-            mintPrice = 0.001 ether;
-        }
+        mintPrice = (mintPrice * 110) / 100;
     }
 
     function totalValueInEnvelopes() public view returns (uint256) {

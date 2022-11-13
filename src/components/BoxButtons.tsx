@@ -100,7 +100,7 @@ export default function BoXButtons() {
         >
           <Typography variant="h2" fontWeight={700}>
             <HourglassTopOutlinedIcon sx={{ fontSize: "4rem" }} />
-            {} Wait for the jackpot! {}
+            {} Track the jackpot {}
             <PublicIcon sx={{ fontSize: "4rem" }} />
           </Typography>
 
@@ -147,12 +147,12 @@ export default function BoXButtons() {
         >
           <Typography variant="h2" fontWeight={700}>
             <LocalFireDepartmentIcon sx={{ fontSize: "4rem" }} />
-            {} TIX! {}
+            {} Burn {}
             <LocalActivityOutlinedIcon sx={{ fontSize: "4rem" }} />
           </Typography>
 
           <Typography variant="h5" fontWeight={500}>
-            open a random envelope
+            Burn TIX to open an envelope
           </Typography>
         </Box>
 
@@ -192,7 +192,7 @@ export default function BoXButtons() {
         >
           <Typography variant="h2" fontWeight={700}>
             <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
-            {} Open Envelopes! {}
+            {} Your Envelopes {}
             <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
           </Typography>
 
