@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -66,7 +66,24 @@ export default function Nav() {
           <Button color="primary">Info</Button>
         </Box>
 
-        <Box display={"flex"} justifyContent="flex-end" alignItems="center" px={2}>
+        <Box
+          sx={{
+            ["&:hover"]: {
+              boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
+              zIndex: 1,
+              cursor: "pointer",
+            },
+            ["&:active"]: {
+              boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
+              zIndex: 1,
+              backgroundColor: "#000000",
+            },
+          }}
+          display={"flex"}
+          justifyContent="flex-end"
+          alignItems="center"
+          px={2}
+        >
           <ConnectButton />
         </Box>
       </Box>
