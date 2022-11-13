@@ -6,11 +6,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { connectorsForWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import {
-  metaMaskWallet,
-  injectedWallet,
-  walletConnectWallet,
-} from "@rainbow-me/rainbowkit/wallets";
+import { metaMaskWallet, injectedWallet } from "@rainbow-me/rainbowkit/wallets";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import altlayer from "/src/assets/altlayer.ico";
@@ -81,7 +77,12 @@ const customTheme: any = {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <WagmiConfig client={wagmiClient}>
-    <RainbowKitProvider chains={[altLayerDevnet]} coolMode theme={customTheme}>
+    <RainbowKitProvider
+      chains={[altLayerDevnet]}
+      coolMode
+      theme={customTheme}
+      showRecentTransactions
+    >
       <App />
     </RainbowKitProvider>
   </WagmiConfig>

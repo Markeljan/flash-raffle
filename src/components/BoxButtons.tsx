@@ -1,4 +1,4 @@
-import { Box, createTheme, ThemeProvider, Typography } from "@mui/material";
+import { Box, ThemeProvider, Typography } from "@mui/material";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import PublicIcon from "@mui/icons-material/Public";
 import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
@@ -10,40 +10,7 @@ import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#ffffff",
-    },
-    secondary: {
-      main: "#e73c7e",
-    },
-  },
-
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 0,
-          textTransform: "none",
-          fontWeight: 700,
-          fontSize: "1.8rem",
-          padding: "1rem 2rem",
-          "&:hover": {
-            backgroundColor: "#ffffff",
-            color: "#000000",
-          },
-
-          "&:active": {
-            backgroundColor: "#000000",
-            color: "#e73c7e",
-          },
-        },
-      },
-    },
-  },
-});
+import { boxTheme } from "../utils/boxButtonTheme";
 
 export default function BoXButtons() {
   const { mintPrice, jackpot } = useContext(MainContext);
@@ -51,7 +18,7 @@ export default function BoXButtons() {
   const jackpotHuman = jackpot / 10 ** 18;
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={boxTheme}>
       <Box display="flex" justifyContent="space-between" width="100%">
         <Box
           sx={{
@@ -66,7 +33,8 @@ export default function BoXButtons() {
             ["&:hover"]: {
               backgroundColor: "#ffffff",
               color: "#000000",
-              boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
+              boxShadow:
+                "0 0 0 1rem rgba(0,123,255,.5) inset, 0 0 0 0.4rem rgba(0,123,255,.25) inset",
               zIndex: 1,
               cursor: "pointer",
             },
@@ -74,7 +42,8 @@ export default function BoXButtons() {
               backgroundColor: "#000000",
               color: "#e73c7e",
 
-              boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
+              boxShadow:
+                "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
               zIndex: 1,
             },
           }}
@@ -110,14 +79,16 @@ export default function BoXButtons() {
             ["&:hover"]: {
               backgroundColor: "#E2442F",
               color: "#F1F333",
-              boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
+              boxShadow:
+                "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
               zIndex: 1,
             },
             ["&:active"]: {
               backgroundColor: "#000000",
               color: "#e73c7e",
 
-              boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
+              boxShadow:
+                "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
               zIndex: 1,
             },
           }}
@@ -155,14 +126,16 @@ export default function BoXButtons() {
               color: "#E2442F",
               cursor: "pointer",
 
-              boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
+              boxShadow:
+                "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
               zIndex: 1,
             },
             ["&:active"]: {
               backgroundColor: "#000000",
               color: "#e73c7e",
 
-              boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
+              boxShadow:
+                "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
               zIndex: 1,
             },
           }}
@@ -198,14 +171,16 @@ export default function BoXButtons() {
               backgroundColor: "#000000",
               color: "#90A8ED",
 
-              boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
+              boxShadow:
+                "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
               zIndex: 1,
             },
             ["&:active"]: {
               backgroundColor: "#000000",
               color: "#e73c7e",
 
-              boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
+              boxShadow:
+                "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
               zIndex: 1,
             },
           }}
@@ -245,14 +220,15 @@ export default function BoXButtons() {
             backgroundColor: "#000000",
             color: "#23A094",
 
-            boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
+            boxShadow: "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
             zIndex: 1,
           },
           ["&:active"]: {
             backgroundColor: "#000000",
             color: "#e73c7e",
 
-            boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
+            boxShadow:
+              "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
             zIndex: 1,
           },
         }}
