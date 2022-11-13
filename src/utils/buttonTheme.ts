@@ -22,9 +22,6 @@ export const theme = createTheme({
             "&:hover": {
               backgroundColor: "#ffffff",
               color: "#e73c7e",
-  
-              boxShadow: "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
-              zIndex: 1,
               cursor: "pointer",
             },
   

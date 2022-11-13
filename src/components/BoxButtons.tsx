@@ -33,9 +33,6 @@ export default function BoXButtons() {
             ["&:hover"]: {
               backgroundColor: "#ffffff",
               color: "#000000",
-              boxShadow:
-                "0 0 0 1rem rgba(0,123,255,.5) inset, 0 0 0 0.4rem rgba(0,123,255,.25) inset",
-              zIndex: 1,
               cursor: "pointer",
             },
             ["&:active"]: {
@@ -79,9 +76,6 @@ export default function BoXButtons() {
             ["&:hover"]: {
               backgroundColor: "#E2442F",
               color: "#F1F333",
-              boxShadow:
-                "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
-              zIndex: 1,
             },
             ["&:active"]: {
               backgroundColor: "#000000",
@@ -125,10 +119,6 @@ export default function BoXButtons() {
               backgroundColor: "#F1F333",
               color: "#E2442F",
               cursor: "pointer",
-
-              boxShadow:
-                "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
-              zIndex: 1,
             },
             ["&:active"]: {
               backgroundColor: "#000000",
@@ -170,10 +160,6 @@ export default function BoXButtons() {
             ["&:hover"]: {
               backgroundColor: "#000000",
               color: "#90A8ED",
-
-              boxShadow:
-                "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
-              zIndex: 1,
             },
             ["&:active"]: {
               backgroundColor: "#000000",
@@ -219,9 +205,6 @@ export default function BoXButtons() {
           ["&:hover"]: {
             backgroundColor: "#000000",
             color: "#23A094",
-
-            boxShadow: "0 0 0 1rem rgba(0,123,255,.5) inset,0 0 0 0.4rem rgba(0,123,255,.25) inset",
-            zIndex: 1,
           },
           ["&:active"]: {
             backgroundColor: "#000000",
