@@ -31,12 +31,6 @@ function App() {
   const [mintPrice, setMintPrice] = useState(0);
   const [jackpot, setJackpot] = useState(0);
 
-  useEffect(() => {
-    console.log("data", data);
-    console.log("isError", isError);
-    console.log("isLoading", isLoading);
-  }, [data, isError, isLoading]);
-
   const contextData = {
     address,
     FLASH_RAFFLE_READ,
@@ -80,7 +74,7 @@ function App() {
     }
 
     FLASH_RAFFLE_READ && fetchContractData();
-  }, [FLASH_RAFFLE_WRITE]);
+  }, [FLASH_RAFFLE_WRITE, data]);
 
   return (
     <Box
