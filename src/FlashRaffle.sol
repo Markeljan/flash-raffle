@@ -19,20 +19,12 @@ contract FlashRaffle is
 
     Counters.Counter private _tokenIdCounter;
 
-    uint256 public currentRaffleId;
+    uint256 public mintPrice = .001 ether;
     uint256 public jackpotValue;
 
     enum Status {
-        idle,
         active,
         ended
-    }
-
-    struct Raffle {
-        uint256 raffleId;
-        uint256 totalValue;
-        uint256[] envelopeIds;
-        Status status;
     }
 
     struct Envelope {
@@ -41,11 +33,9 @@ contract FlashRaffle is
         Status status;
     }
 
-    mapping(uint256 => Raffle) public raffleIdToRaffle;
-    mapping(uint256 => Envelope) public envelopeIdToEnvelope;
+    mapping(uint256 => Envelope) private envelopeIdToEnvelope;
 
-    Raffle[] public rafflesArray;
-    Envelope[] public envelopesArray;
+    Envelope[] private envelopesArray;
 
     string[] tixUris = [
         "https://bafybeicuf2uiuqiy7jgvlgofozgaqm7fnm7mva3i3bcnrymdmrp6yyvthm.ipfs.nftstorage.link/1.json",
@@ -57,7 +47,7 @@ contract FlashRaffle is
     constructor() ERC721("FlashTIX", "TIX") {}
 
     function safeMint(address to) public payable {
-        require(msg.value == 1 ether, "Not enough ALT sent");
+        require(msg.value == mintPrice, "Not enough ALT sent");
 
         //mint 5x TIX nfts
         for (uint256 i = 0; i < 5; i++) {
@@ -75,143 +65,91 @@ contract FlashRaffle is
 
         createEnvelopes((msg.value * 90) / 100);
         jackpotValue += (msg.value * 10) / 100;
+        if (jackpotValue > 0) {
+            mintPrice = (mintPrice * 110) / 100;
+        } else {
+            mintPrice = 0.001 ether;
+        }
     }
 
-    function createRaffle() public {
-        // require that the current raffle is not active.
-        require(
-            raffleIdToRaffle[currentRaffleId].status != Status.active,
-            "There's already a raffle active!"
-        );
+    function totalValueInEnvelopes() public view returns (uint256) {
+        uint256 totalValues;
 
-        //get 5 random envelopes from the envelopes array with status idle and add them to a new raffle
-        uint256[] memory envelopeIds = new uint256[](5);
-        uint256 counter = 0;
         for (uint256 i = 0; i < envelopesArray.length; i++) {
-            if (
-                envelopeIdToEnvelope[envelopesArray[i].envelopeId].status ==
-                Status.idle
-            ) {
-                envelopeIds[counter] = envelopesArray[i].envelopeId;
-                counter++;
-            }
-            if (counter == 5) {
-                break;
-            }
+            totalValues += envelopesArray[i].value;
         }
 
-        currentRaffleId++;
-        //create a new raffle
-        raffleIdToRaffle[currentRaffleId] = Raffle(
-            currentRaffleId,
-            0,
-            envelopeIds,
-            Status.active
-        );
-        //add the raffle to the raffles array
-        rafflesArray.push(raffleIdToRaffle[currentRaffleId]);
-
-        //set the status of the envelopes to active
-        for (uint256 i = 0; i < envelopeIds.length; i++) {
-            envelopeIdToEnvelope[envelopeIds[i]].status = Status.active;
-        }
-
-        //set the total value of the raffle to the sum of the values of the envelopes
-        for (uint256 i = 0; i < envelopeIds.length; i++) {
-            raffleIdToRaffle[currentRaffleId]
-                .totalValue += envelopeIdToEnvelope[envelopeIds[i]].value;
-        }
-
-        //set the status of the raffle to active
-        raffleIdToRaffle[currentRaffleId].status = Status.active;
+        return totalValues;
     }
 
-    function createEnvelopes(uint256 _totalValue) public {
+    function createEnvelopes(uint256 _totalValue) private {
         //create 5 envelopes with random values totaling mintPrice.
-
         uint256 remainingValue = _totalValue;
 
-        // generate 5 random values
+        // generate 5 random values with a max of 10% of the total value each
         uint256[] memory envelopeValues = new uint256[](5);
         for (uint256 i = 0; i < 5; i++) {
-            if (i == 4) {
-                envelopeValues[i] = remainingValue;
-            } else {
-                envelopeValues[i] =
-                    (uint256(
-                        keccak256(
-                            abi.encodePacked(
-                                block.timestamp,
-                                block.difficulty,
-                                i,
-                                _totalValue,
-                                remainingValue
-                            )
-                        )
-                    ) % remainingValue) +
-                    1;
-                remainingValue -= envelopeValues[i];
-            }
+            uint256 randomValue = uint256(
+                keccak256(abi.encodePacked(block.timestamp, _totalValue, i))
+            ) % (_totalValue / 10);
+            envelopeValues[i] = randomValue;
+            remainingValue -= randomValue;
         }
-        //add envelopes to mapping and array
+
+        // create envelopes with the random values
         for (uint256 i = 0; i < 5; i++) {
-            Envelope memory newEnvelope = Envelope(
+            Envelope memory envelope = Envelope(
                 envelopesArray.length + 1,
                 envelopeValues[i],
-                Status.idle
+                Status.active
             );
-            envelopeIdToEnvelope[envelopesArray.length + 1] = newEnvelope;
-            envelopesArray.push(newEnvelope);
+            envelopesArray.push(envelope);
+            envelopeIdToEnvelope[envelopesArray.length] = envelope;
         }
-        createRaffle();
+
+        // allocate the remaining value to a random envelope with status active
+        uint256 randomIndex = uint256(
+            keccak256(abi.encodePacked(block.timestamp, _totalValue))
+        ) % envelopesArray.length;
+        while (envelopesArray[randomIndex].status == Status.ended) {
+            randomIndex =
+                uint256(
+                    keccak256(abi.encodePacked(block.timestamp, _totalValue))
+                ) %
+                envelopesArray.length;
+        }
+        envelopesArray[randomIndex].value += remainingValue;
+        envelopeIdToEnvelope[randomIndex + 1].value += remainingValue;
     }
 
     function claimTIX(uint256 _tokenId) public returns (uint256[2] memory) {
-        //require that the current raffle is active
-        require(
-            raffleIdToRaffle[currentRaffleId].status == Status.active,
-            "Current raffle is not active"
-        );
-
         require(msg.sender == ownerOf(_tokenId), "You do not own this TIX");
 
         //burn the TIX token
         _burn(_tokenId);
 
-        //set the status of a random envelope in the current raffle to ended
-        uint256 randomEnvelopeId = raffleIdToRaffle[currentRaffleId]
-            .envelopeIds[
-                uint256(
+        //get a random envelope from the active envelopes
+        uint256 randomEnvelopeId = (uint256(
+            keccak256(abi.encodePacked(block.timestamp, _tokenId, jackpotValue))
+        ) % envelopesArray.length) + 1;
+
+        while (envelopeIdToEnvelope[randomEnvelopeId].status != Status.active) {
+            randomEnvelopeId =
+                (uint256(
                     keccak256(
                         abi.encodePacked(
                             block.timestamp,
-                            block.difficulty,
-                            currentRaffleId
+                            _tokenId,
+                            jackpotValue
                         )
                     )
-                ) % 5
-            ];
-        envelopeIdToEnvelope[randomEnvelopeId].status = Status.ended;
+                ) % envelopesArray.length) +
+                1;
+        }
 
-        //set the status of the current raffle to ended if all envelopes are ended
-        bool allEnded = true;
-        for (
-            uint256 i = 0;
-            i < raffleIdToRaffle[currentRaffleId].envelopeIds.length;
-            i++
-        ) {
-            if (
-                envelopeIdToEnvelope[
-                    raffleIdToRaffle[currentRaffleId].envelopeIds[i]
-                ].status != Status.ended
-            ) {
-                allEnded = false;
-                break;
-            }
-        }
-        if (allEnded) {
-            raffleIdToRaffle[currentRaffleId].status = Status.ended;
-        }
+        //set the status of the envelope to ended
+        envelopeIdToEnvelope[randomEnvelopeId].status = Status.ended;
+        envelopesArray[randomEnvelopeId - 1].status = Status.ended;
 
         //send the value of the envelope to the sender
         payable(msg.sender).transfer(
@@ -225,7 +163,7 @@ contract FlashRaffle is
                     abi.encodePacked(
                         block.timestamp,
                         block.difficulty,
-                        currentRaffleId
+                        randomEnvelopeId
                     )
                 )
             ) %
@@ -239,13 +177,6 @@ contract FlashRaffle is
             );
         }
         return ([envelopeIdToEnvelope[randomEnvelopeId].value, 0]);
-    }
-
-    function getAvailableBalance() public view returns (uint256) {
-        //avaialbleBalance minus the total value of the envelopes in the current raffle. And minus 90% for jackpot growth
-        return
-            ((address(this).balance -
-                raffleIdToRaffle[currentRaffleId].totalValue) * 90) / 100;
     }
 
     // The following functions are overrides required by Solidity.
