@@ -7,6 +7,9 @@ import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
 import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
 import ShuffleOnOutlinedIcon from "@mui/icons-material/ShuffleOnOutlined";
 import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
+import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import { useContext } from "react";
+import { MainContext } from "../contexts/MainContext";
 
 const theme = createTheme({
   palette: {
@@ -43,6 +46,10 @@ const theme = createTheme({
 });
 
 export default function BoXButtons() {
+  const { mintPrice, jackpot } = useContext(MainContext);
+  const mintPriceHuman = mintPrice / 10 ** 18;
+  const jackpotHuman = jackpot / 10 ** 18;
+
   return (
     <ThemeProvider theme={theme}>
       <Box display="flex" justifyContent="space-between" width="100%">
@@ -85,7 +92,7 @@ export default function BoXButtons() {
           </Typography>
 
           <Typography variant="h5" fontWeight={500}>
-            1 TIX = 1 entry
+            1 mint = {mintPriceHuman} ALT = 5 TIX nfts
           </Typography>
         </Box>
 
@@ -122,56 +129,106 @@ export default function BoXButtons() {
         >
           <Typography variant="h2" fontWeight={700}>
             <HourglassTopOutlinedIcon sx={{ fontSize: "4rem" }} />
-            {} Wait for a Raffle! {}
+            {} Wait for the jackpot! {}
             <PublicIcon sx={{ fontSize: "4rem" }} />
           </Typography>
 
           <Typography variant="h5" fontWeight={500}>
-            min 2 entrants
+            current Jackpot: {jackpotHuman} ALT
           </Typography>
         </Box>
       </Box>
-      <Box
-        sx={{
-          color: "#000000",
-          background: "#90A8ED",
-          py: 8,
-          width: "100%",
-          border: "5px solid transparent",
-          boxSizing: "border-box",
-          borderImage:
-            "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
-          borderImageSlice: 1,
-          ["&:hover"]: {
-            backgroundColor: "#000000",
-            color: "#90A8ED",
+      <Box display="flex" width={"100%"}>
+        <Box
+          sx={{
+            color: "#F1F333",
+            background: "#E2442F",
+            py: 8,
+            width: "35%",
+            border: "5px solid transparent",
+            boxSizing: "border-box",
+            borderImage:
+              "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+            borderImageSlice: 1,
+            ["&:hover"]: {
+              backgroundColor: "#F1F333",
+              color: "#E2442F",
+              cursor: "pointer",
 
-            boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
-            zIndex: 1,
-          },
-          ["&:active"]: {
-            backgroundColor: "#000000",
-            color: "#e73c7e",
+              boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
+              zIndex: 1,
+            },
+            ["&:active"]: {
+              backgroundColor: "#000000",
+              color: "#e73c7e",
 
-            boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
-            zIndex: 1,
-          },
-        }}
-        component="button"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Typography variant="h2" fontWeight={700}>
-          <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
-          {} Open Envelopes! {}
-          <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
-        </Typography>
+              boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
+              zIndex: 1,
+            },
+          }}
+          component="button"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography variant="h2" fontWeight={700}>
+            <LocalFireDepartmentIcon sx={{ fontSize: "4rem" }} />
+            {} TIX! {}
+            <LocalActivityOutlinedIcon sx={{ fontSize: "4rem" }} />
+          </Typography>
 
-        <Typography variant="h5" fontWeight={500}>
-          Exchange TIX for envelopes to earn Crypto or Sponsor NFT's!
-        </Typography>
+          <Typography variant="h5" fontWeight={500}>
+            open a random envelope
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            color: "#000000",
+            background: "#90A8ED",
+            py: 8,
+            width: "65%",
+            border: "5px solid transparent",
+            boxSizing: "border-box",
+            borderImage:
+              "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+            borderImageSlice: 1,
+            ["&:hover"]: {
+              backgroundColor: "#000000",
+              color: "#90A8ED",
+
+              boxShadow: "0 0 0 1rem rgba(0,123,255,.5),0 0 0 0.4rem rgba(0,123,255,.25)",
+              zIndex: 1,
+            },
+            ["&:active"]: {
+              backgroundColor: "#000000",
+              color: "#e73c7e",
+
+              boxShadow: "0 0 0 1rem rgba(231,60,126, .5),0 0 0 0.4rem rgba(231,60,126, .5)",
+              zIndex: 1,
+            },
+          }}
+          component="button"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography variant="h2" fontWeight={700}>
+            <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
+            {} Open Envelopes! {}
+            <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
+          </Typography>
+
+          <Typography variant="h5" fontWeight={500}>
+            🔥 TIX for envelopes to earn Crypto or Sponsor NFT's!
+          </Typography>
+
+          <Typography variant="h5" fontWeight={500}>
+            Claimable envelopes: {"envelopes"}
+          </Typography>
+        </Box>
       </Box>
       <Box
         sx={{
