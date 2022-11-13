@@ -23,7 +23,7 @@ const theme = createTheme({
           padding: "1rem 2rem",
           "&:hover": {
             backgroundColor: "#ffffff",
-            color: "#000000",
+            color: "#e73c7e",
           },
 
           "&:active": {
