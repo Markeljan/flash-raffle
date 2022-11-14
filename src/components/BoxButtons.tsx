@@ -325,16 +325,15 @@ export default function BoXButtons() {
           </Box>
         </Box>
 
-        <Box display="flex" width="100%">
+        <Box display="flex">
           <Box width="35%">
-            <Flippy flipOnClick={true} flipDirection="horizontal">
-              <FrontSide style={{}}>
-                {" "}
+            <Flippy style={{ display: "flex" }} flipOnClick={true} flipDirection="horizontal">
+              <FrontSide style={{ display: "flex" }}>
                 <Box
                   sx={{
                     color: "#F1F333",
                     background: "#E2442F",
-                    py: 8,
+                    py: 11,
                     width: "100%",
                     border: "5px solid transparent",
                     boxSizing: "border-box",
@@ -481,7 +480,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    <Box display="flex" flexDirection="row">
+                    <Box display="flex" flexDirection="row" gap={2}>
                       {drawLatestUserEnvelopes()}
                     </Box>
                   </Typography>

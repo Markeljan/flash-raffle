@@ -87,6 +87,7 @@ function App() {
         animation: "gradient 15s ease infinite",
         width: { xs: "100%", md: "90%", lg: "80%" },
         margin: "0 auto",
+        mb: "100px",
       }}
     >
       <MainContext.Provider value={contextData}>
