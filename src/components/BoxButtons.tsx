@@ -14,7 +14,6 @@ import { boxTheme } from "../utils/boxButtonTheme";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
 import { useContractEvent } from "wagmi";
 import { FLASH_RAFFLE_ABI, FLASH_RAFFLE_ADDRESS } from "../constants/contractData";
-import envelope from "/src/assets/images/opened.png";
 
 export default function BoXButtons() {
   const {
@@ -32,7 +31,7 @@ export default function BoXButtons() {
   const [openedEnvelopes, setOpenedEnvelopes] = useState([] as any);
   const [userEnvelopes, setUserEnvelopes] = useState([]);
   const [refresher, setRefresher] = useState(false);
-  const [mailImage, setMailImage] = useState("url(/src/assets/images/opened.png)");
+  const [mailImage, setMailImage] = useState("url(/opened.png)");
 
   const listening = useContractEvent({
     address: FLASH_RAFFLE_ADDRESS,
@@ -376,12 +375,11 @@ export default function BoXButtons() {
                 </Box>
               </FrontSide>
               <BackSide style={{}}>
-                {" "}
                 <Box
                   sx={{
                     color: "#F1F333",
                     background: "#E2442F",
-                    py: 8,
+                    py: 11,
                     width: "100%",
                     border: "5px solid transparent",
                     boxSizing: "border-box",
@@ -461,16 +459,16 @@ export default function BoXButtons() {
                   alignItems="center"
                   gap={3}
                   onMouseEnter={() => {
-                    setMailImage("url(/src/assets/images/opened4.png)");
+                    setMailImage("url(/opened4.png)");
                   }}
                   onMouseLeave={() => {
-                    setMailImage("url(/src/assets/images/opened.png)");
+                    setMailImage("url(/opened.png)");
                   }}
                   onMouseDown={() => {
-                    setMailImage("url(/src/assets/images/opened3.png)");
+                    setMailImage("url(/opened3.png)");
                   }}
                   onMouseUp={() => {
-                    setMailImage("url(/src/assets/images/opened2.png)");
+                    setMailImage("url(/opened2.png)");
                   }}
                 >
                   <Typography variant="h2" fontWeight={700}>
@@ -564,16 +562,16 @@ export default function BoXButtons() {
                   },
                 }}
                 onMouseEnter={() => {
-                  setMailImage("url(/src/assets/images/opened2.png)");
+                  setMailImage("url(/opened2.png)");
                 }}
                 onMouseLeave={() => {
-                  setMailImage("url(/src/assets/images/opened.png)");
+                  setMailImage("url(/opened.png)");
                 }}
                 onMouseDown={() => {
-                  setMailImage("url(/src/assets/images/opened3.png)");
+                  setMailImage("url(/opened3.png)");
                 }}
                 onMouseUp={() => {
-                  setMailImage("url(/src/assets/images/opened2.png)");
+                  setMailImage("url(/opened2.png)");
                 }}
                 component="button"
                 display="flex"
