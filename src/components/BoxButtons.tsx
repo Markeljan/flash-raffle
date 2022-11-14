@@ -52,13 +52,12 @@ export default function BoXButtons() {
 
       setUserEnvelopes(userEnvelopes);
       setOpenedEnvelopes(openedEnvelopes);
-      console.log(openedEnvelopes);
     };
     FLASH_RAFFLE_READ && getOpenedEnvelopes();
   }, [FLASH_RAFFLE_READ, refresher]);
 
   async function handleMint() {
-    const tx = await FLASH_RAFFLE_WRITE.safeMint(address, { value: mintPrice });
+    const tx = await FLASH_RAFFLE_WRITE.safeMint(address, { value: mintPrice, gasLimit: 1000000 });
     setLatestTxHash(tx.hash);
   }
 
@@ -67,7 +66,7 @@ export default function BoXButtons() {
     return latestEnvelopes.map((envelope: any) => {
       return (
         <Box
-          key={envelope.id}
+          key={envelope.envelopeId + "allEnv"}
           sx={{
             border: "0px solid #000",
             background: mailImage,
@@ -104,7 +103,7 @@ export default function BoXButtons() {
     return latestUserEnvelopes.map((envelope: any) => {
       return (
         <Box
-          key={envelope.id}
+          key={envelope.envelopeId + "draw"}
           sx={{
             border: "0px solid #000",
             background: mailImage,
@@ -479,7 +478,7 @@ export default function BoXButtons() {
 
                   <Typography variant="h5" fontWeight={500}>
                     <Box display="flex" flexDirection="row" gap={2}>
-                      {drawLatestUserEnvelopes()}
+                      {userEnvelopes.length > 1 && drawLatestUserEnvelopes()}
                     </Box>
                   </Typography>
                 </Box>
@@ -527,7 +526,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    <Box sx={{ display: "flex" }}>{drawLatestUserEnvelopes()}</Box>
+                    <Box sx={{ display: "flex" }}></Box>
                   </Typography>
                 </Box>
               </BackSide>
@@ -588,7 +587,7 @@ export default function BoXButtons() {
 
                 <Typography variant="h4" fontWeight={500}>
                   <Box display="flex" gap={6}>
-                    {drawLatestEnvelopes()}
+                    {openedEnvelopes.length > 1 && drawLatestEnvelopes()}
                   </Box>
                 </Typography>
               </Box>
