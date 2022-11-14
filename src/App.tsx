@@ -74,7 +74,7 @@ function App() {
     }
 
     FLASH_RAFFLE_READ && fetchContractData();
-  }, [FLASH_RAFFLE_WRITE, data]);
+  }, [FLASH_RAFFLE_WRITE, data, latestTxHash]);
 
   return (
     <Box

@@ -597,7 +597,7 @@ export default function BoXButtons() {
               >
                 <Typography variant="h2" fontWeight={700}>
                   <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
-                  {} Latest Draws {}
+                  {} Community Draws {}
                   <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
                 </Typography>
 
