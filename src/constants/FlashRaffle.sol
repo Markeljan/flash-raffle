@@ -86,6 +86,22 @@ contract FlashRaffle is
         return openedEnvelopes;
     }
 
+    //get all tokens owned by an address
+    function getTokensByAddress(address _owner)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        uint256 tokenCount = balanceOf(_owner);
+
+        uint256[] memory tokensId = new uint256[](tokenCount);
+        for (uint256 i; i < tokenCount; i++) {
+            tokensId[i] = tokenOfOwnerByIndex(_owner, i);
+        }
+
+        return tokensId;
+    }
+
     function createEnvelopes(uint256 _totalValue) private {
         //create 5 envelopes with random values totaling mintPrice.
         uint256 remainingValue = _totalValue;
@@ -178,13 +194,17 @@ contract FlashRaffle is
         //set the status of the envelope to ended
         envelopeIdToEnvelope[randomEnvelopeId].status = Status.ended;
         envelopesArray[randomEnvelopeId - 1].status = Status.ended;
-        openedEnvelopes.push(envelopeIdToEnvelope[randomEnvelopeId]);
+
+        //set claimer
+        envelopeIdToEnvelope[randomEnvelopeId].claimer = msg.sender;
+        envelopesArray[randomEnvelopeId - 1].claimer = msg.sender;
 
         //send the value of the envelope to the sender
         payable(msg.sender).transfer(
             envelopeIdToEnvelope[randomEnvelopeId].value
         );
 
+        openedEnvelopes.push(envelopeIdToEnvelope[randomEnvelopeId]);
         return (envelopeIdToEnvelope[randomEnvelopeId]);
     }
 

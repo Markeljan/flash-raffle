@@ -24,14 +24,17 @@ export default function BoXButtons() {
     FLASH_RAFFLE_WRITE,
     addTx,
     setLatestTxHash,
+    data,
   } = useContext(MainContext);
 
   const mintPriceHuman = mintPrice / 10 ** 18;
   const jackpotHuman = jackpot / 10 ** 18;
   const [openedEnvelopes, setOpenedEnvelopes] = useState([] as any);
-  const [userEnvelopes, setUserEnvelopes] = useState([]);
+  const [userEnvelopes, setUserEnvelopes] = useState([] as any);
+  const [userTIX, setUserTIX] = useState([] as any);
   const [refresher, setRefresher] = useState(false);
   const [mailImage, setMailImage] = useState("url(/opened.png)");
+  const [burnedCount, setBurnedCount] = useState(0);
 
   const listening = useContractEvent({
     address: FLASH_RAFFLE_ADDRESS,
@@ -44,20 +47,31 @@ export default function BoXButtons() {
 
   useEffect(() => {
     const getOpenedEnvelopes = async () => {
-      if (!FLASH_RAFFLE_READ) return;
       const openedEnvelopes = await FLASH_RAFFLE_READ.getOpenedEnvelopes();
       const userEnvelopes = openedEnvelopes.filter((envelope: any) => {
         if (envelope.claimer === address) return envelope;
       });
 
+      const burnedCount = await FLASH_RAFFLE_READ.addressToBurnedTIX(address);
+      const userTIXarray = await FLASH_RAFFLE_READ.getTokensByAddress(address);
+
+      setBurnedCount(burnedCount);
+
+      setUserTIX(userTIXarray);
+
       setUserEnvelopes(userEnvelopes);
       setOpenedEnvelopes(openedEnvelopes);
     };
     FLASH_RAFFLE_READ && getOpenedEnvelopes();
-  }, [FLASH_RAFFLE_READ, refresher]);
+  }, [FLASH_RAFFLE_READ, refresher, data]);
 
   async function handleMint() {
-    const tx = await FLASH_RAFFLE_WRITE.safeMint(address, { value: mintPrice, gasLimit: 1000000 });
+    const tx = await FLASH_RAFFLE_WRITE.safeMint(address, { value: mintPrice });
+    setLatestTxHash(tx.hash);
+  }
+
+  async function handleClaim() {
+    const tx = await FLASH_RAFFLE_WRITE.claimTIX(Number(userTIX[0]), { gasLimit: 3000000 });
     setLatestTxHash(tx.hash);
   }
 
@@ -357,6 +371,7 @@ export default function BoXButtons() {
                   flexDirection="column"
                   justifyContent="center"
                   alignItems="center"
+                  onClick={handleClaim}
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <LocalFireDepartmentIcon sx={{ fontSize: "4rem" }} />
@@ -369,7 +384,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    0? Tix 🔥ed.
+                    {Number(burnedCount)} Tix 🔥ed.
                   </Typography>
                 </Box>
               </FrontSide>
@@ -404,6 +419,7 @@ export default function BoXButtons() {
                   flexDirection="column"
                   justifyContent="center"
                   alignItems="center"
+                  onClick={handleClaim}
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <LocalFireDepartmentIcon sx={{ fontSize: "4rem" }} />
