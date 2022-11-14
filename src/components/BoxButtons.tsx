@@ -14,6 +14,8 @@ import { boxTheme } from "../utils/boxButtonTheme";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
 import { useContractEvent } from "wagmi";
 import { FLASH_RAFFLE_ABI, FLASH_RAFFLE_ADDRESS } from "../constants/contractData";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 export default function BoXButtons() {
   const {
