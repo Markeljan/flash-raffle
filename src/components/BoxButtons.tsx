@@ -1,4 +1,4 @@
-import { Box, LinearProgress, ThemeProvider, Typography } from "@mui/material";
+import { Box, LinearProgress, Link, ThemeProvider, Typography } from "@mui/material";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import PublicIcon from "@mui/icons-material/Public";
 import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
@@ -14,6 +14,7 @@ import { boxTheme } from "../utils/boxButtonTheme";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
 import { useContractEvent } from "wagmi";
 import { FLASH_RAFFLE_ABI, FLASH_RAFFLE_ADDRESS } from "../constants/contractData";
+import envelope from "/src/assets/images/opened.png";
 
 export default function BoXButtons() {
   const {
@@ -31,6 +32,7 @@ export default function BoXButtons() {
   const [openedEnvelopes, setOpenedEnvelopes] = useState([] as any);
   const [userEnvelopes, setUserEnvelopes] = useState([]);
   const [refresher, setRefresher] = useState(false);
+  const [mailImage, setMailImage] = useState("url(/src/assets/images/opened.png)");
 
   const listening = useContractEvent({
     address: FLASH_RAFFLE_ADDRESS,
@@ -68,20 +70,30 @@ export default function BoXButtons() {
         <Box
           key={envelope.id}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
+            border: "0px solid #000",
+            background: mailImage,
+            backgroundSize: "100% 100%",
+            py: "30px",
+            px: "20px",
           }}
         >
-          <Typography variant="h6" sx={{ color: "white" }}>
-            ✉
-          </Typography>
-          <Typography variant="h6" sx={{ color: "white" }}>
-            {envelope.claimer.slice(0, 6)}..{envelope.claimer.slice(-6)}
-          </Typography>
-          <Typography variant="h6" sx={{ color: "white" }}>
+          <Typography variant="h6" sx={{}}>
             {(envelope.value / 10 ** 18).toFixed(5)} ETH
+          </Typography>
+
+          <Typography fontSize={"1.1rem"}>
+            {envelope.status === 1 ? "_" : "🎉JACKPOT!🎉"}
+          </Typography>
+
+          <Typography sx={{}}>
+            <Link
+              href={`https://devnet-explorer.altlayer.io/address/${envelope.claimer}`}
+              target="_blank"
+              rel="noopener"
+              color="inherit"
+            >
+              {envelope.claimer.slice(0, 6)}..{envelope.claimer.slice(-6)}
+            </Link>
           </Typography>
         </Box>
       );
@@ -198,7 +210,7 @@ export default function BoXButtons() {
             </Flippy>
           </Box>
           <Box width="50%">
-            <Flippy flipOnClick={true} flipDirection="vertical">
+            <Flippy flipOnClick={false} flipDirection="vertical">
               <FrontSide
                 style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}
               >
@@ -392,7 +404,7 @@ export default function BoXButtons() {
           </Box>
 
           <Box width="65%">
-            <Flippy flipOnClick={true} flipDirection="vertical">
+            <Flippy flipOnClick={false} flipDirection="vertical">
               <FrontSide style={{}}>
                 {" "}
                 <Box
@@ -490,98 +502,111 @@ export default function BoXButtons() {
             </Flippy>
           </Box>
         </Box>
-        <Flippy flipOnClick={true} flipDirection="vertical">
-          <FrontSide style={{}}>
-            {" "}
-            <Box
-              sx={{
-                color: "#000000",
-                background: "#23A094",
-                py: 16,
-                width: "100%",
-                border: "5px solid transparent",
-                boxSizing: "border-box",
-                borderImage:
-                  "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
-                borderImageSlice: 1,
-                ["&:hover"]: {
-                  backgroundColor: "#000000",
-                  color: "#23A094",
-                },
-                ["&:active"]: {
-                  backgroundColor: "#000000",
-                  color: "#e73c7e",
+        <Box>
+          <Flippy flipOnClick={false} flipDirection="vertical">
+            <FrontSide style={{}}>
+              <Box
+                sx={{
+                  color: "#000000",
+                  background: "#23A094",
+                  py: 16,
+                  width: "100%",
+                  border: "5px solid transparent",
+                  boxSizing: "border-box",
+                  borderImage:
+                    "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+                  borderImageSlice: 1,
+                  ["&:hover"]: {
+                    backgroundColor: "#000000",
+                    color: "#23A094",
+                  },
+                  ["&:active"]: {
+                    backgroundColor: "#000000",
+                    color: "#e73c7e",
 
-                  boxShadow:
-                    "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
-                  zIndex: 1,
-                },
-              }}
-              component="button"
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Typography variant="h2" fontWeight={700}>
-                <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
-                {} Current Draw {}
-                <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
-              </Typography>
-              <Typography variant="h5" fontWeight={500}>
-                game status...
-              </Typography>
-              <Typography variant="h4" fontWeight={500}>
-                ✉✉✉✉✉✉✉✉✉✉
-              </Typography>
-            </Box>
-          </FrontSide>
-          <BackSide style={{ display: "flex", width: "100%" }}>
-            {" "}
-            <Box
-              sx={{
-                color: "#000000",
-                background: "#23A094",
-                py: 16,
-                width: "100%",
-                border: "5px solid transparent",
-                boxSizing: "border-box",
-                borderImage:
-                  "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
-                borderImageSlice: 1,
-                ["&:hover"]: {
-                  backgroundColor: "#000000",
-                  color: "#23A094",
-                },
-                ["&:active"]: {
-                  backgroundColor: "#000000",
-                  color: "#e73c7e",
+                    boxShadow:
+                      "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
+                    zIndex: 1,
+                  },
+                }}
+                onMouseEnter={() => {
+                  setMailImage("url(/src/assets/images/opened2.png)");
+                }}
+                onMouseLeave={() => {
+                  setMailImage("url(/src/assets/images/opened.png)");
+                }}
+                onMouseDown={() => {
+                  setMailImage("url(/src/assets/images/opened3.png)");
+                }}
+                onMouseUp={() => {
+                  setMailImage("url(/src/assets/images/opened2.png)");
+                }}
+                component="button"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                gap={8}
+              >
+                <Typography variant="h2" fontWeight={700}>
+                  <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
+                  {} Latest Draws {}
+                  <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
+                </Typography>
 
-                  boxShadow:
-                    "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
-                  zIndex: 1,
-                },
-              }}
-              component="button"
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Typography variant="h2" fontWeight={700}>
-                <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
-                {} Current Draw {}
-                <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
-              </Typography>
-              <Typography variant="h5" fontWeight={500}>
-                game status...
-              </Typography>
-              <Typography variant="h4" fontWeight={500}>
-                {drawLatestEnvelopes()}
-              </Typography>
-            </Box>
-          </BackSide>
-        </Flippy>
+                <Typography variant="h4" fontWeight={500}>
+                  <Box display="flex" gap={6}>
+                    {drawLatestEnvelopes()}
+                  </Box>
+                </Typography>
+              </Box>
+            </FrontSide>
+            <BackSide style={{}}>
+              <Box
+                sx={{
+                  color: "#000000",
+                  background: "#23A094",
+                  py: 16,
+                  width: "100%",
+                  border: "5px solid transparent",
+                  boxSizing: "border-box",
+                  borderImage:
+                    "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+                  borderImageSlice: 1,
+                  ["&:hover"]: {
+                    backgroundColor: "#000000",
+                    color: "#23A094",
+                  },
+                  ["&:active"]: {
+                    backgroundColor: "#000000",
+                    color: "#e73c7e",
+
+                    boxShadow:
+                      "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
+                    zIndex: 1,
+                  },
+                }}
+                component="button"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Typography variant="h2" fontWeight={700}>
+                  <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
+                  {} Current Draw {}
+                  <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
+                </Typography>
+                <Typography variant="h5" fontWeight={500}>
+                  game status...
+                </Typography>
+                <Typography variant="h4" fontWeight={500}>
+                  ✉✉✉✉✉✉✉✉✉✉
+                </Typography>
+              </Box>
+            </BackSide>
+          </Flippy>
+        </Box>
       </Box>
     </ThemeProvider>
   );
