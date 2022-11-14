@@ -1,6 +1,6 @@
-## Built for LayerHack 2022!
+### Built for LayerHack 2022!
 
-# live at (https://flashraffle.xyz)
+## live at (https://flashraffle.xyz)
 
 # Vite + React + Material UI + Rainbowkit
 
