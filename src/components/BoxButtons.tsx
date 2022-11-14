@@ -51,7 +51,7 @@ export default function BoXButtons() {
         if (envelope.claimer === address) return envelope;
       });
 
-      console.log("userEnvelopes", userEnvelopes);
+      setUserEnvelopes(userEnvelopes);
       setOpenedEnvelopes(openedEnvelopes);
       console.log(openedEnvelopes);
     };
@@ -82,7 +82,7 @@ export default function BoXButtons() {
           </Typography>
 
           <Typography fontSize={"1.1rem"}>
-            {envelope.status === 1 ? "_" : "🎉JACKPOT!🎉"}
+            &nbsp; {envelope.status === 2 && "🎉JACKPOT!🎉"}
           </Typography>
 
           <Typography sx={{}}>
@@ -94,6 +94,32 @@ export default function BoXButtons() {
             >
               {envelope.claimer.slice(0, 6)}..{envelope.claimer.slice(-6)}
             </Link>
+          </Typography>
+        </Box>
+      );
+    });
+  }
+
+  function drawLatestUserEnvelopes() {
+    const latestUserEnvelopes = userEnvelopes.slice(-5);
+    return latestUserEnvelopes.map((envelope: any) => {
+      return (
+        <Box
+          key={envelope.id}
+          sx={{
+            border: "0px solid #000",
+            background: mailImage,
+            backgroundSize: "100% 100%",
+            py: "15px",
+            px: "3px",
+          }}
+        >
+          <Typography variant="h6" sx={{}}>
+            {(envelope.value / 10 ** 18).toFixed(5)} ETH
+          </Typography>
+
+          <Typography fontSize={"1.1rem"}>
+            &nbsp; {envelope.status === 2 && "🎉JACKPOT!🎉"}
           </Typography>
         </Box>
       );
@@ -215,7 +241,6 @@ export default function BoXButtons() {
                 style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}
               >
                 <Box
-                  onClick={() => console.log("clicked")}
                   sx={{
                     color: "#E2442F",
                     background: "#F1F333",
@@ -257,7 +282,6 @@ export default function BoXButtons() {
               </FrontSide>
               <BackSide style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
                 <Box
-                  onClick={() => console.log("clicked")}
                   sx={{
                     color: "#E2442F",
                     background: "#F1F333",
@@ -436,19 +460,30 @@ export default function BoXButtons() {
                   flexDirection="column"
                   justifyContent="center"
                   alignItems="center"
+                  gap={3}
+                  onMouseEnter={() => {
+                    setMailImage("url(/src/assets/images/opened4.png)");
+                  }}
+                  onMouseLeave={() => {
+                    setMailImage("url(/src/assets/images/opened.png)");
+                  }}
+                  onMouseDown={() => {
+                    setMailImage("url(/src/assets/images/opened3.png)");
+                  }}
+                  onMouseUp={() => {
+                    setMailImage("url(/src/assets/images/opened2.png)");
+                  }}
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
-                    {} Your envelopes {}
+                    {} Your claims {}
                     <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    Envelope history
-                  </Typography>
-
-                  <Typography variant="h5" fontWeight={500}>
-                    [array of envelope rewards] {"envelopes"}
+                    <Box display="flex" flexDirection="row">
+                      {drawLatestUserEnvelopes()}
+                    </Box>
                   </Typography>
                 </Box>
               </FrontSide>
@@ -495,7 +530,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    [array of envelope rewards] {"envelopes"}
+                    <Box sx={{ display: "flex" }}>{drawLatestUserEnvelopes()}</Box>
                   </Typography>
                 </Box>
               </BackSide>
