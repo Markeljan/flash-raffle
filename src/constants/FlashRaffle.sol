@@ -24,19 +24,22 @@ contract FlashRaffle is
 
     enum Status {
         active,
-        ended
+        ended,
+        jackpot
     }
 
     struct Envelope {
         uint256 envelopeId;
         uint256 value;
         Status status;
+        address claimer;
     }
 
     mapping(uint256 => Envelope) private envelopeIdToEnvelope;
     mapping(address => uint256) public addressToBurnedTIX;
 
     Envelope[] private envelopesArray;
+    Envelope[] public openedEnvelopes;
 
     string[] tixUris = [
         "https://bafybeicuf2uiuqiy7jgvlgofozgaqm7fnm7mva3i3bcnrymdmrp6yyvthm.ipfs.nftstorage.link/1.json",
@@ -79,6 +82,10 @@ contract FlashRaffle is
         return totalValues;
     }
 
+    function getOpenedEnvelopes() public view returns (Envelope[] memory) {
+        return openedEnvelopes;
+    }
+
     function createEnvelopes(uint256 _totalValue) private {
         //create 5 envelopes with random values totaling mintPrice.
         uint256 remainingValue = _totalValue;
@@ -98,7 +105,8 @@ contract FlashRaffle is
             Envelope memory envelope = Envelope(
                 envelopesArray.length + 1,
                 envelopeValues[i],
-                Status.active
+                Status.active,
+                address(this)
             );
             envelopesArray.push(envelope);
             envelopeIdToEnvelope[envelopesArray.length] = envelope;
@@ -119,7 +127,7 @@ contract FlashRaffle is
         envelopeIdToEnvelope[randomIndex + 1].value += remainingValue;
     }
 
-    function claimTIX(uint256 _tokenId) public returns (uint256[2] memory) {
+    function claimTIX(uint256 _tokenId) public returns (Envelope memory) {
         require(msg.sender == ownerOf(_tokenId), "You do not own this TIX");
 
         //burn the TIX token
@@ -145,16 +153,7 @@ contract FlashRaffle is
                 1;
         }
 
-        //set the status of the envelope to ended
-        envelopeIdToEnvelope[randomEnvelopeId].status = Status.ended;
-        envelopesArray[randomEnvelopeId - 1].status = Status.ended;
-
-        //send the value of the envelope to the sender
-        payable(msg.sender).transfer(
-            envelopeIdToEnvelope[randomEnvelopeId].value
-        );
-
-        //random chance one in 100 to win the jackpot
+        //random chance one in 10 to win the jackpot
         if (
             uint256(
                 keccak256(
@@ -165,16 +164,28 @@ contract FlashRaffle is
                     )
                 )
             ) %
-                100 ==
+                10 ==
             0
         ) {
-            payable(msg.sender).transfer(jackpotValue);
+            //set the status of the envelope to jackpot
+            envelopeIdToEnvelope[randomEnvelopeId].status = Status.jackpot;
+            envelopesArray[randomEnvelopeId - 1].status = Status.jackpot;
+            envelopeIdToEnvelope[randomEnvelopeId].value += jackpotValue;
+            envelopesArray[randomEnvelopeId - 1].value += jackpotValue;
             jackpotValue = 0;
-            return (
-                [envelopeIdToEnvelope[randomEnvelopeId].value, jackpotValue]
-            );
         }
-        return ([envelopeIdToEnvelope[randomEnvelopeId].value, 0]);
+
+        //set the status of the envelope to ended
+        envelopeIdToEnvelope[randomEnvelopeId].status = Status.ended;
+        envelopesArray[randomEnvelopeId - 1].status = Status.ended;
+        openedEnvelopes.push(envelopeIdToEnvelope[randomEnvelopeId]);
+
+        //send the value of the envelope to the sender
+        payable(msg.sender).transfer(
+            envelopeIdToEnvelope[randomEnvelopeId].value
+        );
+
+        return (envelopeIdToEnvelope[randomEnvelopeId]);
     }
 
     // The following functions are overrides required by Solidity.

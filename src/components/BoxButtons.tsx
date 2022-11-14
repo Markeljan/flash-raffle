@@ -12,17 +12,80 @@ import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { boxTheme } from "../utils/boxButtonTheme";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
+import { useContractEvent } from "wagmi";
+import { FLASH_RAFFLE_ABI, FLASH_RAFFLE_ADDRESS } from "../constants/contractData";
 
 export default function BoXButtons() {
-  const { mintPrice, jackpot, address, FLASH_RAFFLE_WRITE, addTx, setLatestTxHash } =
-    useContext(MainContext);
+  const {
+    mintPrice,
+    jackpot,
+    address,
+    FLASH_RAFFLE_READ,
+    FLASH_RAFFLE_WRITE,
+    addTx,
+    setLatestTxHash,
+  } = useContext(MainContext);
 
   const mintPriceHuman = mintPrice / 10 ** 18;
   const jackpotHuman = jackpot / 10 ** 18;
+  const [openedEnvelopes, setOpenedEnvelopes] = useState([] as any);
+  const [userEnvelopes, setUserEnvelopes] = useState([]);
+  const [refresher, setRefresher] = useState(false);
+
+  const listening = useContractEvent({
+    address: FLASH_RAFFLE_ADDRESS,
+    abi: FLASH_RAFFLE_ABI,
+    eventName: "Transfer",
+    listener(node, label, owner) {
+      setRefresher(!refresher);
+    },
+  });
+
+  useEffect(() => {
+    const getOpenedEnvelopes = async () => {
+      if (!FLASH_RAFFLE_READ) return;
+      const openedEnvelopes = await FLASH_RAFFLE_READ.getOpenedEnvelopes();
+      const userEnvelopes = openedEnvelopes.filter((envelope: any) => {
+        if (envelope.claimer === address) return envelope;
+      });
+
+      console.log("userEnvelopes", userEnvelopes);
+      setOpenedEnvelopes(openedEnvelopes);
+      console.log(openedEnvelopes);
+    };
+    FLASH_RAFFLE_READ && getOpenedEnvelopes();
+  }, [FLASH_RAFFLE_READ, refresher]);
 
   async function handleMint() {
     const tx = await FLASH_RAFFLE_WRITE.safeMint(address, { value: mintPrice });
     setLatestTxHash(tx.hash);
+  }
+
+  function drawLatestEnvelopes() {
+    const latestEnvelopes = openedEnvelopes.slice(-5);
+    return latestEnvelopes.map((envelope: any) => {
+      return (
+        <Box
+          key={envelope.id}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="h6" sx={{ color: "white" }}>
+            ✉
+          </Typography>
+          <Typography variant="h6" sx={{ color: "white" }}>
+            {envelope.claimer.slice(0, 6)}..{envelope.claimer.slice(-6)}
+          </Typography>
+          <Typography variant="h6" sx={{ color: "white" }}>
+            {(envelope.value / 10 ** 18).toFixed(5)} ETH
+          </Typography>
+        </Box>
+      );
+    });
   }
 
   return (
@@ -70,7 +133,7 @@ export default function BoXButtons() {
                       zIndex: 1,
                     },
                   }}
-                  // onClick={handleMint}
+                  onClick={handleMint}
                   component="button"
                   display="flex"
                   flexDirection="column"
@@ -113,7 +176,7 @@ export default function BoXButtons() {
                       zIndex: 1,
                     },
                   }}
-                  // onClick={handleMint}
+                  onClick={handleMint}
                   component="button"
                   display="flex"
                   flexDirection="column"
@@ -364,7 +427,7 @@ export default function BoXButtons() {
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
-                    {} Your Envelopes {}
+                    {} Your envelopes {}
                     <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
                   </Typography>
 
@@ -411,7 +474,7 @@ export default function BoXButtons() {
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
-                    {} Your Envelopes {}
+                    {} Your envelopes {}
                     <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
                   </Typography>
 
@@ -514,7 +577,7 @@ export default function BoXButtons() {
                 game status...
               </Typography>
               <Typography variant="h4" fontWeight={500}>
-                ✉✉✉✉✉✉✉✉✉✉
+                {drawLatestEnvelopes()}
               </Typography>
             </Box>
           </BackSide>
