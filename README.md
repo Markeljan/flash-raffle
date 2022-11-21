@@ -1,4 +1,4 @@
-#FlashRaffle
+# FlashRaffle
 ## Built for Encode LayerHack 2022!
 🎫On-chain raffle
 🧨Dynamic mint price
