@@ -17,12 +17,12 @@ export const altLayerDevnet = {
   network: "altlayer-devnet",
   nativeCurrency: { name: "ALT", symbol: "ALT", decimals: 18 },
   rpcUrls: {
-    default: "https://devnet-rpc.altlayer.io/",
+    default: "https://devnet-rpc.altlayer.io",
   },
   blockExplorers: {
     default: {
       name: "altlayer explorer",
-      url: "https://devnet-explorer.altlayer.io/",
+      url: "https://devnet-explorer.altlayer.io",
     },
   },
   iconUrl: altlayer,
@@ -48,14 +48,36 @@ export const metisTestnet = {
   testnet: true,
 };
 
-const { provider } = configureChains([altLayerDevnet, metisTestnet], [publicProvider() as any]);
+export const bobaTestnet = {
+  id: 4328,
+  name: "Bobafuji Testnet",
+  network: "bobafuji-testnet",
+  nativeCurrency: { name: "BOBA", symbol: "BOBA", decimals: 18 },
+  rpcUrls: {
+    default: "https://testnet.avax.boba.network",
+  },
+  blockExplorers: {
+    default: {
+      name: "Boba explorer",
+      url: "https://blockexplorer.testnet.avax.boba.network",
+    },
+  },
+  iconUrl:
+    "https://bafybeih4cmld7qnmyavux7kchxg7povj6qamviqcyu7oduigvwdznhkvlm.ipfs.nftstorage.link/boba.png",
+  testnet: true,
+};
+
+const { provider } = configureChains(
+  [altLayerDevnet, metisTestnet, bobaTestnet],
+  [publicProvider() as any]
+);
 
 const connectors = connectorsForWallets([
   {
     groupName: "Supported Wallets",
     wallets: [
-      injectedWallet({ chains: [altLayerDevnet, metisTestnet] }),
-      metaMaskWallet({ chains: [altLayerDevnet, metisTestnet] }),
+      injectedWallet({ chains: [altLayerDevnet, metisTestnet, bobaTestnet] }),
+      metaMaskWallet({ chains: [altLayerDevnet, metisTestnet, bobaTestnet] }),
     ],
   },
 ]);
@@ -97,7 +119,7 @@ const customTheme: any = {
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <WagmiConfig client={wagmiClient}>
     <RainbowKitProvider
-      chains={[altLayerDevnet, metisTestnet]}
+      chains={[altLayerDevnet, metisTestnet, bobaTestnet]}
       coolMode
       theme={customTheme}
       showRecentTransactions
