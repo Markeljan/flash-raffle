@@ -29,14 +29,33 @@ export const altLayerDevnet = {
   testnet: true,
 };
 
-const { provider } = configureChains([altLayerDevnet], [publicProvider() as any]);
+export const metisTestnet = {
+  id: 599,
+  name: "Metis Goerli Testnet",
+  network: "metis-goerli-testnet",
+  nativeCurrency: { name: "tMetis", symbol: "Metis", decimals: 18 },
+  rpcUrls: {
+    default: "https://goerli.gateway.metisdevops.link",
+  },
+  blockExplorers: {
+    default: {
+      name: "MetisGoerli explorer",
+      url: "https://goerli.explorer.metisdevops.link",
+    },
+  },
+  iconUrl:
+    "https://bafybeigfoc2kcz653wevlhsb37odh3pbwzt4cczziomwfglxi7pdmnfj44.ipfs.nftstorage.link/metis.png",
+  testnet: true,
+};
+
+const { provider } = configureChains([altLayerDevnet, metisTestnet], [publicProvider() as any]);
 
 const connectors = connectorsForWallets([
   {
     groupName: "Supported Wallets",
     wallets: [
-      injectedWallet({ chains: [altLayerDevnet] }),
-      metaMaskWallet({ chains: [altLayerDevnet] }),
+      injectedWallet({ chains: [altLayerDevnet, metisTestnet] }),
+      metaMaskWallet({ chains: [altLayerDevnet, metisTestnet] }),
     ],
   },
 ]);
@@ -78,7 +97,7 @@ const customTheme: any = {
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <WagmiConfig client={wagmiClient}>
     <RainbowKitProvider
-      chains={[altLayerDevnet]}
+      chains={[altLayerDevnet, metisTestnet]}
       coolMode
       theme={customTheme}
       showRecentTransactions
