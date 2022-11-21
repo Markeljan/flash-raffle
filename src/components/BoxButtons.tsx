@@ -12,10 +12,9 @@ import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { boxTheme } from "../utils/boxButtonTheme";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
-import { useContractEvent } from "wagmi";
+import { useContractEvent, useNetwork } from "wagmi";
 import { FLASH_RAFFLE_ABI, FLASH_RAFFLE_ADDRESS } from "../constants/contractData";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import { altLayerDevnet, metisTestnet, bobaTestnet } from "../main";
 
 export default function BoXButtons() {
   const {
@@ -37,6 +36,18 @@ export default function BoXButtons() {
   const [refresher, setRefresher] = useState(false);
   const [mailImage, setMailImage] = useState("url(/opened.png)");
   const [burnedCount, setBurnedCount] = useState(0);
+  const [blockExplorer, setBlockExplorer] = useState("");
+  const { chain } = useNetwork();
+
+  useEffect(() => {
+    if (chain?.id === 9990) {
+      setBlockExplorer(altLayerDevnet.blockExplorers.default.url);
+    } else if (chain?.id === 599) {
+      setBlockExplorer(metisTestnet.blockExplorers.default.url);
+    } else if (chain?.id === 4328) {
+      setBlockExplorer(bobaTestnet.blockExplorers.default.url);
+    }
+  }, [chain]);
 
   const listening = useContractEvent({
     address: FLASH_RAFFLE_ADDRESS,
@@ -101,7 +112,7 @@ export default function BoXButtons() {
 
           <Typography sx={{}}>
             <Link
-              href={`https://devnet-explorer.altlayer.io/address/${envelope.claimer}`}
+              href={`${blockExplorer}/address/${envelope.claimer}`}
               target="_blank"
               rel="noopener"
               color="inherit"
