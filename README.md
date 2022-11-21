@@ -4,7 +4,8 @@
 🎁Sponsored Prizes / boosts
 🔥Burn2Earn
 🔗Multi-chain: AltLayer, Metis, Boba
-live at (https://flashraffle.xyz)
+
+Live at (https://flashraffle.xyz)
 ## Built for Encode LayerHack 2022!
 Flash Raffle is a multi-chain lottery built showcase the power of scaling solutions! Users mint TIX NFTs to be burned at a later date in exchange for envelopes with random prizes inside.
 
