@@ -1,4 +1,9 @@
-### Built for LayerHack 2022!
+### Built for Encode LayerHack 2022!
+🎫On-chain raffle
+🧨Dynamic mint price
+🎁Sponsored Prizes / boosts
+🔥Burn2Earn
+🔗Multi-chain: AltLayer, Metis, Boba
 
 ## live at (https://flashraffle.xyz)
 
@@ -10,10 +15,18 @@ Prizes hidden inside envelopes can include native tokens, ERC20 tokens, NFT's, d
 
 Sponsors inject prizes into Flash Raffles to onboard users and for brand awareness!
 
-Built with [AltLayer](https://altlayer.io), [METIS](https://metisdao.medium.com/), [Boba](https://boba.network)
+Built on [AltLayer](https://altlayer.io), [METIS](https://metisdao.medium.com/), [Boba](https://boba.network)
 
-Uses React, Material UI, Wagmi
+Made with React, Material UI, Wagmi
 
-To run :
-yarn
-yarn dev
+Why use Layer 2 solutions?
+Faster Finality
+Lower Gas Fees
+Higher TPS
+More Functionality
+SCALE!
+
+
+To run locally: 
+-yarn
+-yarn dev
