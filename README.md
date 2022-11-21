@@ -1,4 +1,5 @@
-### Built for Encode LayerHack 2022!
+#FlashRaffle
+## Built for Encode LayerHack 2022!
 🎫On-chain raffle
 🧨Dynamic mint price
 🎁Sponsored Prizes / boosts
