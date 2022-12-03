@@ -27,6 +27,7 @@ contract FlashRaffle is
         ended,
         jackpot
     }
+    //mark
 
     struct Envelope {
         uint256 envelopeId;
@@ -87,11 +88,9 @@ contract FlashRaffle is
     }
 
     //get all tokens owned by an address
-    function getTokensByAddress(address _owner)
-        public
-        view
-        returns (uint256[] memory)
-    {
+    function getTokensByAddress(
+        address _owner
+    ) public view returns (uint256[] memory) {
         uint256 tokenCount = balanceOf(_owner);
 
         uint256[] memory tokensId = new uint256[](tokenCount);
@@ -219,28 +218,21 @@ contract FlashRaffle is
         super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
 
-    function _burn(uint256 tokenId)
-        internal
-        override(ERC721, ERC721URIStorage)
-    {
+    function _burn(
+        uint256 tokenId
+    ) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
+    function tokenURI(
+        uint256 tokenId
+    ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
         return super.tokenURI(tokenId);
     }
 
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721, ERC721Enumerable)
-        returns (bool)
-    {
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view override(ERC721, ERC721Enumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 }
