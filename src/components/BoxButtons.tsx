@@ -729,15 +729,15 @@ export default function BoXButtons() {
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Box py={18}>
+                    <Box sx={{ display: "flex", flexDirection: "column", gap: 9, py: 19 }}>
                       <Typography variant="h2" fontWeight={700}>
                         <TelegramIcon sx={{ fontSize: "4rem" }} />
-                        {} Join Telegram {}
+                        {} Telegram {}
                         <HttpsIcon sx={{ fontSize: "4rem" }} />
                       </Typography>
 
                       <Typography variant="h4" fontWeight={500}>
-                        Verify you are a TIX owner via NiftyKit.
+                        Verify you are a TIX owner to join. (via NiftyKit)
                       </Typography>
                     </Box>
                   </Box>
@@ -794,15 +794,15 @@ export default function BoXButtons() {
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Box py={18}>
+                    <Box sx={{ display: "flex", flexDirection: "column", gap: 9, py: 19 }}>
                       <Typography variant="h2" fontWeight={700}>
                         <TelegramIcon sx={{ fontSize: "4rem" }} />
-                        {} Join Telegram {}
+                        {} Telegram {}
                         <HttpsIcon sx={{ fontSize: "4rem" }} />
                       </Typography>
 
                       <Typography variant="h4" fontWeight={500}>
-                        Verify you are a TIX owner via NiftyKit.
+                        Verify you are a TIX owner to join. (via NiftyKit)
                       </Typography>
                     </Box>
                   </Box>
