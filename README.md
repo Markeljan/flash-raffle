@@ -8,10 +8,7 @@
 
 Live at (https://flashraffle.xyz)
 
-<img src="https://bafybeieozzvcwxxhtovk2quzp3mr5fee3wctw4yzovt5wnrzh6uydd33im.ipfs.nftstorage.link/" width="800" height="450" />
-
-
-
+<img src="https://bafybeiduoc25kbwj3unyu62efzvscedijxaxvo4yfkha4snjjtebcyzpry.ipfs.nftstorage.link/" width="400" height="225" />
 
 ## Built for Encode Metaverse Hackathon!
 
@@ -25,6 +22,8 @@ Live at (https://flashraffle.xyz)
 Sponsors may inject prizes into Flash Raffles to onboard users and for brand awareness!
 
 #### Token gating functionality achieved using [NiftyKit](https://app.niftykit.com)
+
+<img src="https://bafybeidufpiztcajbvj5vditbairyughwivn2u42g4d2vud4zy7smf2c5y.ipfs.nftstorage.link/" width="400" height="225" />
 
 #### Built on [Optimism](https://www.optimism.io/)
 
