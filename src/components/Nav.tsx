@@ -7,6 +7,7 @@ import { MainContext } from "../contexts/MainContext";
 
 export default function Nav() {
   const { isLoading, totalDonated } = useContext(MainContext);
+
   return (
     <ThemeProvider theme={theme}>
       <Box
