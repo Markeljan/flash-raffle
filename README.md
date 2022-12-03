@@ -8,7 +8,7 @@
 
 Live at (https://flashraffle.xyz)
 
-<img src="https://bafybeieozzvcwxxhtovk2quzp3mr5fee3wctw4yzovt5wnrzh6uydd33im.ipfs.nftstorage.link/" width="400" height="400" />
+<img src="https://bafybeieozzvcwxxhtovk2quzp3mr5fee3wctw4yzovt5wnrzh6uydd33im.ipfs.nftstorage.link/" width="800" height="450" />
 
 
 
