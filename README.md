@@ -27,7 +27,7 @@ Sponsors may inject prizes into Flash Raffles to onboard users and for brand awa
 #### Built on [Optimism](https://www.optimism.io/)
 
 Pitch Deck: 
-[https://docs.google.com/presentation/d/1c9NmHrKha77MRPK-T8GwmhfVvWqdcB7xuD16IHb82ik/edit#slide=id.g1948f6b8be3_0_2](https://docs.google.com/presentation/d/1c9NmHrKha77MRPK-T8GwmhfVvWqdcB7xuD16IHb82ik/edit#slide=id.g1948f6b8be3_0_2)
+https://docs.google.com/presentation/d/e/2PACX-1vTOd7tPTZaKX0gB-nEs89g4I7TUa19b3J--nMzwC3872n1WYlYnTWhZQpQp4ddsBeSfgtDKeCBlMG7b/pub?start=false&loop=false&delayms=3000
 
 Made with React, Material UI, Wagmi, Rainbowkit
 
