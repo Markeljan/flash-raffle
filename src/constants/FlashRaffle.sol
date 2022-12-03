@@ -67,9 +67,13 @@ contract FlashRaffle is
             _setTokenURI(tokenId, tixUris[randomIndex]);
         }
 
-        createEnvelopes((msg.value * 90) / 100);
+        createEnvelopes((msg.value * 80) / 100);
         jackpotValue += (msg.value * 10) / 100;
         mintPrice = (mintPrice * 110) / 100;
+        //10 % donation to Optimism retroPGF.eth
+        payable(0x15DdA60616Ffca20371ED1659dBB78E888f65556).transfer(
+            (msg.value * 10) / 100
+        );
     }
 
     function totalValueInEnvelopes() public view returns (uint256) {
@@ -87,11 +91,9 @@ contract FlashRaffle is
     }
 
     //get all tokens owned by an address
-    function getTokensByAddress(address _owner)
-        public
-        view
-        returns (uint256[] memory)
-    {
+    function getTokensByAddress(
+        address _owner
+    ) public view returns (uint256[] memory) {
         uint256 tokenCount = balanceOf(_owner);
 
         uint256[] memory tokensId = new uint256[](tokenCount);
@@ -219,28 +221,21 @@ contract FlashRaffle is
         super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
 
-    function _burn(uint256 tokenId)
-        internal
-        override(ERC721, ERC721URIStorage)
-    {
+    function _burn(
+        uint256 tokenId
+    ) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
+    function tokenURI(
+        uint256 tokenId
+    ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
         return super.tokenURI(tokenId);
     }
 
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721, ERC721Enumerable)
-        returns (bool)
-    {
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view override(ERC721, ERC721Enumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 }

@@ -1,4 +1,4 @@
-import { Box, LinearProgress, Link, ThemeProvider, Typography } from "@mui/material";
+import { Box, Link, ThemeProvider, Typography } from "@mui/material";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import PublicIcon from "@mui/icons-material/Public";
 import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
@@ -8,13 +8,14 @@ import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
 import ShuffleOnOutlinedIcon from "@mui/icons-material/ShuffleOnOutlined";
 import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import HttpsIcon from "@mui/icons-material/Https";
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { boxTheme } from "../utils/boxButtonTheme";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
-import { useContractEvent, useNetwork } from "wagmi";
-import { FLASH_RAFFLE_ABI, FLASH_RAFFLE_ADDRESS } from "../constants/contractData";
-import { altLayerDevnet, metisTestnet, bobaTestnet } from "../main";
+import { useContractEvent, chain } from "wagmi";
+import { RETROPGF_ABI, RETROPGF_ADDRESS } from "../constants/contractData";
 
 export default function BoXButtons() {
   const {
@@ -36,25 +37,20 @@ export default function BoXButtons() {
   const [refresher, setRefresher] = useState(false);
   const [mailImage, setMailImage] = useState("url(/opened.png)");
   const [burnedCount, setBurnedCount] = useState(0);
-  const [blockExplorer, setBlockExplorer] = useState("");
-  const { chain } = useNetwork();
+  const [blockExplorer, setBlockExplorer] = useState("") as any;
 
   useEffect(() => {
-    if (chain?.id === 9990) {
-      setBlockExplorer(altLayerDevnet.blockExplorers.default.url);
-    } else if (chain?.id === 599) {
-      setBlockExplorer(metisTestnet.blockExplorers.default.url);
-    } else if (chain?.id === 4328) {
-      setBlockExplorer(bobaTestnet.blockExplorers.default.url);
+    if (chain.optimism) {
+      setBlockExplorer(chain.optimism.blockExplorers?.default.url);
     }
   }, [chain]);
 
-  const listening = useContractEvent({
-    address: FLASH_RAFFLE_ADDRESS,
-    abi: FLASH_RAFFLE_ABI,
-    eventName: "Transfer",
+  useContractEvent({
+    address: RETROPGF_ADDRESS,
+    abi: RETROPGF_ABI,
+    eventName: "ReceivedETH",
     listener(node, label, owner) {
-      setRefresher(!refresher);
+      console.log(node, label, owner);
     },
   });
 
@@ -211,7 +207,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    1 mint = {mintPriceHuman} ALT = 5 TIX nfts
+                    1 mint = {mintPriceHuman} {chain.optimism.nativeCurrency?.symbol} = 5 TIX nfts
                   </Typography>
                 </Box>
               </FrontSide>
@@ -254,7 +250,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    1 mint = {mintPriceHuman} ALT = 5 TIX nfts
+                    1 mint = {mintPriceHuman} {chain.optimism.nativeCurrency?.symbol} = 5 TIX nfts
                   </Typography>
                 </Box>
               </BackSide>
@@ -296,12 +292,12 @@ export default function BoXButtons() {
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <HourglassTopOutlinedIcon sx={{ fontSize: "4rem" }} />
-                    {} Track the jackpot {}
+                    {} Track Jackpot {}
                     <PublicIcon sx={{ fontSize: "4rem" }} />
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    current Jackpot: {jackpotHuman} ALT
+                    current Jackpot: {jackpotHuman} {chain.optimism.nativeCurrency?.symbol}
                   </Typography>
                 </Box>
               </FrontSide>
@@ -337,12 +333,12 @@ export default function BoXButtons() {
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <HourglassTopOutlinedIcon sx={{ fontSize: "4rem" }} />
-                    {} Track the jackpot {}
+                    {} Track Jackpot {}
                     <PublicIcon sx={{ fontSize: "4rem" }} />
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    current Jackpot: {jackpotHuman} ALT
+                    current Jackpot: {jackpotHuman} {chain.optimism.nativeCurrency?.symbol}
                   </Typography>
                 </Box>
               </BackSide>
@@ -501,7 +497,7 @@ export default function BoXButtons() {
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
-                    {} Your claims {}
+                    {} Your Claims {}
                     <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
                   </Typography>
 
@@ -546,7 +542,7 @@ export default function BoXButtons() {
                 >
                   <Typography variant="h2" fontWeight={700}>
                     <DraftsOutlinedIcon sx={{ fontSize: "4rem" }} />
-                    {} Your envelopes {}
+                    {} Your Claims {}
                     <LocalAtmOutlinedIcon sx={{ fontSize: "4rem" }} />
                   </Typography>
 
@@ -562,110 +558,258 @@ export default function BoXButtons() {
             </Flippy>
           </Box>
         </Box>
-        <Box>
-          <Flippy flipOnClick={false} flipDirection="vertical">
-            <FrontSide style={{}}>
-              <Box
-                sx={{
-                  color: "#000000",
-                  background: "#23A094",
-                  py: 16,
-                  width: "100%",
-                  border: "5px solid transparent",
-                  boxSizing: "border-box",
-                  borderImage:
-                    "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
-                  borderImageSlice: 1,
-                  ["&:hover"]: {
-                    backgroundColor: "#000000",
-                    color: "#23A094",
-                  },
-                  ["&:active"]: {
-                    backgroundColor: "#000000",
-                    color: "#e73c7e",
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Box display="flex" width="100%" justifyContent={"center"}>
+            <Box width="65%">
+              <Flippy flipOnClick={false} flipDirection="vertical">
+                <FrontSide style={{}}>
+                  <Box
+                    sx={{
+                      color: "#000000",
+                      background: "#23A094",
+                      py: 16,
+                      width: "100%",
 
-                    boxShadow:
-                      "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
-                    zIndex: 1,
-                  },
-                }}
-                onMouseEnter={() => {
-                  setMailImage("url(/opened2.png)");
-                }}
-                onMouseLeave={() => {
-                  setMailImage("url(/opened.png)");
-                }}
-                onMouseDown={() => {
-                  setMailImage("url(/opened3.png)");
-                }}
-                onMouseUp={() => {
-                  setMailImage("url(/opened2.png)");
-                }}
-                component="button"
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                gap={8}
-              >
-                <Typography variant="h2" fontWeight={700}>
-                  <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
-                  {} Community Draws {}
-                  <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
-                </Typography>
+                      border: "5px solid transparent",
+                      boxSizing: "border-box",
+                      borderImage:
+                        "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+                      borderImageSlice: 1,
+                      ["&:hover"]: {
+                        backgroundColor: "#000000",
+                        color: "#23A094",
+                      },
+                      ["&:active"]: {
+                        backgroundColor: "#000000",
+                        color: "#e73c7e",
 
-                <Typography variant="h4" fontWeight={500}>
-                  <Box display="flex" gap={6}>
-                    {openedEnvelopes.length > 1 && drawLatestEnvelopes()}
+                        boxShadow:
+                          "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
+                        zIndex: 1,
+                      },
+                    }}
+                    onMouseEnter={() => {
+                      setMailImage("url(/opened2.png)");
+                    }}
+                    onMouseLeave={() => {
+                      setMailImage("url(/opened.png)");
+                    }}
+                    onMouseDown={() => {
+                      setMailImage("url(/opened3.png)");
+                    }}
+                    onMouseUp={() => {
+                      setMailImage("url(/opened2.png)");
+                    }}
+                    component="button"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={8}
+                  >
+                    <Typography variant="h2" fontWeight={700}>
+                      <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
+                      {} Community Draws {}
+                      <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
+                    </Typography>
+
+                    <Typography variant="h4" fontWeight={500}>
+                      <Box display="flex" gap={6}>
+                        {openedEnvelopes.length > 1 && drawLatestEnvelopes()}
+                      </Box>
+                    </Typography>
                   </Box>
-                </Typography>
-              </Box>
-            </FrontSide>
-            <BackSide style={{}}>
-              <Box
-                sx={{
-                  color: "#000000",
-                  background: "#23A094",
-                  py: 16,
-                  width: "100%",
-                  border: "5px solid transparent",
-                  boxSizing: "border-box",
-                  borderImage:
-                    "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
-                  borderImageSlice: 1,
-                  ["&:hover"]: {
-                    backgroundColor: "#000000",
-                    color: "#23A094",
-                  },
-                  ["&:active"]: {
-                    backgroundColor: "#000000",
-                    color: "#e73c7e",
+                </FrontSide>
+                <BackSide style={{}}>
+                  <Box
+                    sx={{
+                      color: "#000000",
+                      background: "#23A094",
+                      py: 16,
 
-                    boxShadow:
-                      "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
-                    zIndex: 1,
-                  },
-                }}
-                component="button"
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Typography variant="h2" fontWeight={700}>
-                  <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
-                  {} Current Draw {}
-                  <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
-                </Typography>
-                <Typography variant="h5" fontWeight={500}>
-                  game status...
-                </Typography>
-                <Typography variant="h4" fontWeight={500}>
-                  ✉✉✉✉✉✉✉✉✉✉
-                </Typography>
-              </Box>
-            </BackSide>
-          </Flippy>
+                      border: "5px solid transparent",
+                      boxSizing: "border-box",
+                      borderImage:
+                        "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+                      borderImageSlice: 1,
+                      ["&:hover"]: {
+                        backgroundColor: "#000000",
+                        color: "#23A094",
+                      },
+                      ["&:active"]: {
+                        backgroundColor: "#000000",
+                        color: "#e73c7e",
+
+                        boxShadow:
+                          "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
+                        zIndex: 1,
+                      },
+                    }}
+                    component="button"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Typography variant="h2" fontWeight={700}>
+                      <ShuffleOnOutlinedIcon sx={{ fontSize: "4rem" }} />
+                      {} Current Draw {}
+                      <PriceChangeOutlinedIcon sx={{ fontSize: "4rem" }} />
+                    </Typography>
+                    <Typography variant="h5" fontWeight={500}>
+                      game status...
+                    </Typography>
+                    <Typography variant="h4" fontWeight={500}>
+                      ✉✉✉✉✉✉✉✉✉✉
+                    </Typography>
+                  </Box>
+                </BackSide>
+              </Flippy>
+            </Box>
+            <Box width="35%">
+              <Flippy flipOnClick={true} flipDirection="vertical">
+                <FrontSide>
+                  <Box
+                    sx={{
+                      color: "#000000",
+                      background: "#FFFFFF",
+                      width: "100%",
+                      border: "5px solid transparent",
+                      boxSizing: "border-box",
+                      borderImage:
+                        "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+                      borderImageSlice: 1,
+                      ["&:hover"]: {
+                        backgroundColor: "#000000",
+                        color: "#FFFFFF",
+                        cursor: "pointer",
+                      },
+                      ["&:active"]: {
+                        backgroundColor: "#0088cc",
+                        color: "#e73c7e",
+
+                        boxShadow:
+                          "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
+                        zIndex: 1,
+                      },
+                    }}
+                    onMouseEnter={() => {
+                      setMailImage("url(/opened2.png)");
+                    }}
+                    onMouseLeave={() => {
+                      setMailImage("url(/opened.png)");
+                    }}
+                    onMouseDown={() => {
+                      setMailImage("url(/opened3.png)");
+                    }}
+                    onMouseUp={() => {
+                      setMailImage("url(/opened2.png)");
+                    }}
+                    //open website on click after 2 second timeout
+                    onClick={() => {
+                      setTimeout(() => {
+                        window.open(
+                          "https://app.niftykit.com/access/ec5642a8-5303-43fa-a7eb-7e80520f2f7e",
+                          "_blank"
+                        );
+                      }, 1000);
+                    }}
+                    component="button"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Box py={18}>
+                      <Typography variant="h2" fontWeight={700}>
+                        <TelegramIcon sx={{ fontSize: "4rem" }} />
+                        {} Join Telegram {}
+                        <HttpsIcon sx={{ fontSize: "4rem" }} />
+                      </Typography>
+
+                      <Typography variant="h4" fontWeight={500}>
+                        Verify you are a TIX owner via NiftyKit.
+                      </Typography>
+                    </Box>
+                  </Box>
+                </FrontSide>
+                <BackSide>
+                  <Box
+                    sx={{
+                      color: "#000000",
+                      background: "#FFFFFF",
+                      width: "100%",
+                      border: "5px solid transparent",
+                      boxSizing: "border-box",
+                      borderImage:
+                        "linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)",
+                      borderImageSlice: 1,
+                      ["&:hover"]: {
+                        backgroundColor: "#000000",
+                        color: "#FFFFFF",
+                        cursor: "pointer",
+                      },
+                      ["&:active"]: {
+                        backgroundColor: "#0088cc",
+                        color: "#e73c7e",
+
+                        boxShadow:
+                          "0 0 0 1rem rgba(231,60,126, .5) inset,0 0 0 0.4rem rgba(231,60,126, .5) inset",
+                        zIndex: 1,
+                      },
+                    }}
+                    onMouseEnter={() => {
+                      setMailImage("url(/opened2.png)");
+                    }}
+                    onMouseLeave={() => {
+                      setMailImage("url(/opened.png)");
+                    }}
+                    onMouseDown={() => {
+                      setMailImage("url(/opened3.png)");
+                    }}
+                    onMouseUp={() => {
+                      setMailImage("url(/opened2.png)");
+                    }}
+                    //open website on click after 2 second timeout
+                    onClick={() => {
+                      setTimeout(() => {
+                        window.open(
+                          "https://app.niftykit.com/access/ec5642a8-5303-43fa-a7eb-7e80520f2f7e",
+                          "_blank"
+                        );
+                      }, 1000);
+                    }}
+                    component="button"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Box py={18}>
+                      <Typography variant="h2" fontWeight={700}>
+                        <TelegramIcon sx={{ fontSize: "4rem" }} />
+                        {} Join Telegram {}
+                        <HttpsIcon sx={{ fontSize: "4rem" }} />
+                      </Typography>
+
+                      <Typography variant="h4" fontWeight={500}>
+                        Verify you are a TIX owner via NiftyKit.
+                      </Typography>
+                    </Box>
+                  </Box>
+                </BackSide>
+              </Flippy>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </ThemeProvider>

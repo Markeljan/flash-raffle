@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 
 export default function Nav() {
-  const { isLoading } = useContext(MainContext);
+  const { isLoading, totalDonated } = useContext(MainContext);
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -38,7 +38,22 @@ export default function Nav() {
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box display={"flex"}>
             <Button color="primary">FLASH RAFFLE</Button>
-            <Button color="primary">Info</Button>
+            <Button
+              href="https://community.optimism.io/docs/governance/#citizens-house"
+              target="_blank"
+              rel="noopener"
+              color="primary"
+            >
+              Info
+            </Button>
+            <Button
+              href="https://optimistic.etherscan.io/address/0x15dda60616ffca20371ed1659dbb78e888f65556#events"
+              target="_blank"
+              rel="noopener"
+              color="primary"
+            >
+              {totalDonated} ETH Donated to retroPGF.eth
+            </Button>
           </Box>
 
           <CustomConnect />

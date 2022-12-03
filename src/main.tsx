@@ -7,77 +7,21 @@ import "@fontsource/roboto/700.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { connectorsForWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet, injectedWallet } from "@rainbow-me/rainbowkit/wallets";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
-import altlayer from "/src/assets/altlayer.ico";
-
-export const altLayerDevnet = {
-  id: 9990,
-  name: "AltLayer Devnet",
-  network: "altlayer-devnet",
-  nativeCurrency: { name: "ALT", symbol: "ALT", decimals: 18 },
-  rpcUrls: {
-    default: "https://devnet-rpc.altlayer.io",
-  },
-  blockExplorers: {
-    default: {
-      name: "altlayer explorer",
-      url: "https://devnet-explorer.altlayer.io",
-    },
-  },
-  iconUrl: altlayer,
-  testnet: true,
-};
-
-export const metisTestnet = {
-  id: 599,
-  name: "Metis Goerli Testnet",
-  network: "metis-goerli-testnet",
-  nativeCurrency: { name: "tMetis", symbol: "Metis", decimals: 18 },
-  rpcUrls: {
-    default: "https://goerli.gateway.metisdevops.link",
-  },
-  blockExplorers: {
-    default: {
-      name: "MetisGoerli explorer",
-      url: "https://goerli.explorer.metisdevops.link",
-    },
-  },
-  iconUrl:
-    "https://bafybeigfoc2kcz653wevlhsb37odh3pbwzt4cczziomwfglxi7pdmnfj44.ipfs.nftstorage.link/metis.png",
-  testnet: true,
-};
-
-export const bobaTestnet = {
-  id: 4328,
-  name: "Bobafuji Testnet",
-  network: "bobafuji-testnet",
-  nativeCurrency: { name: "BOBA", symbol: "BOBA", decimals: 18 },
-  rpcUrls: {
-    default: "https://testnet.avax.boba.network",
-  },
-  blockExplorers: {
-    default: {
-      name: "Boba explorer",
-      url: "https://blockexplorer.testnet.avax.boba.network",
-    },
-  },
-  iconUrl:
-    "https://bafybeih4cmld7qnmyavux7kchxg7povj6qamviqcyu7oduigvwdznhkvlm.ipfs.nftstorage.link/boba.png",
-  testnet: true,
-};
+import { configureChains, createClient, WagmiConfig, chain } from "wagmi";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { WebSocketProvider } from "@ethersproject/providers";
 
 const { provider } = configureChains(
-  [altLayerDevnet, metisTestnet, bobaTestnet],
-  [publicProvider() as any]
+  [chain.optimism],
+  [alchemyProvider({ apiKey: "I9I-K6j-kpt0pKOfHX1jkx7KcVcusEq5" })]
 );
 
 const connectors = connectorsForWallets([
   {
     groupName: "Supported Wallets",
     wallets: [
-      injectedWallet({ chains: [altLayerDevnet, metisTestnet, bobaTestnet] }),
-      metaMaskWallet({ chains: [altLayerDevnet, metisTestnet, bobaTestnet] }),
+      injectedWallet({ chains: [chain.optimism] }),
+      metaMaskWallet({ chains: [chain.optimism] }),
     ],
   },
 ]);
@@ -119,7 +63,7 @@ const customTheme: any = {
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <WagmiConfig client={wagmiClient}>
     <RainbowKitProvider
-      chains={[altLayerDevnet, metisTestnet, bobaTestnet]}
+      chains={[chain.optimism]}
       coolMode
       theme={customTheme}
       showRecentTransactions
