@@ -103,7 +103,7 @@ export default function BoXButtons() {
           }}
         >
           <Typography variant="h6" sx={{}}>
-            {(envelope.value / 10 ** 18).toFixed(5)} ETH
+            {(envelope.value / 10 ** 18).toFixed(5)} {chain?.nativeCurrency?.symbol}
           </Typography>
 
           <Typography fontSize={"1.1rem"}>
@@ -140,7 +140,7 @@ export default function BoXButtons() {
           }}
         >
           <Typography variant="h6" sx={{}}>
-            {(envelope.value / 10 ** 18).toFixed(5)} ETH
+            {(envelope.value / 10 ** 18).toFixed(5)} {chain?.nativeCurrency?.symbol}
           </Typography>
 
           <Typography fontSize={"1.1rem"}>
@@ -211,7 +211,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    1 mint = {mintPriceHuman} ALT = 5 TIX nfts
+                    1 mint = {mintPriceHuman} {chain?.nativeCurrency?.symbol} = 5 TIX nfts
                   </Typography>
                 </Box>
               </FrontSide>
@@ -254,7 +254,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    1 mint = {mintPriceHuman} ALT = 5 TIX nfts
+                    1 mint = {mintPriceHuman} {chain?.nativeCurrency?.symbol} = 5 TIX nfts
                   </Typography>
                 </Box>
               </BackSide>
@@ -301,7 +301,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    current Jackpot: {jackpotHuman} ALT
+                    current Jackpot: {jackpotHuman} {chain?.nativeCurrency?.symbol}
                   </Typography>
                 </Box>
               </FrontSide>
@@ -342,7 +342,7 @@ export default function BoXButtons() {
                   </Typography>
 
                   <Typography variant="h5" fontWeight={500}>
-                    current Jackpot: {jackpotHuman} ALT
+                    current Jackpot: {jackpotHuman} {chain?.nativeCurrency?.symbol}
                   </Typography>
                 </Box>
               </BackSide>

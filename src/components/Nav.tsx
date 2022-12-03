@@ -38,7 +38,14 @@ export default function Nav() {
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box display={"flex"}>
             <Button color="primary">FLASH RAFFLE</Button>
-            <Button color="primary">Info</Button>
+            <Button
+              href="https://docs.google.com/presentation/d/e/2PACX-1vR8zZx987PEMox7tlvVgUOHeqwTQHlq0lseTHo3XaK3hhCeaT8FZetqjJ5-QD92pXSU_QLmtQ_HW_l-/pub?start=false&loop=false&delayms=3000"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="primary"
+            >
+              Info
+            </Button>
           </Box>
 
           <CustomConnect />
