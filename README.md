@@ -8,9 +8,9 @@
 
 ## Built for Encode Metaverse Hackathon!
 Live at (https://flashraffle.xyz)
-
-<img src="https://bafybeiduoc25kbwj3unyu62efzvscedijxaxvo4yfkha4snjjtebcyzpry.ipfs.nftstorage.link/" width="400" height="225" />
 Slide Deck: https://docs.google.com/presentation/d/e/2PACX-1vTOd7tPTZaKX0gB-nEs89g4I7TUa19b3J--nMzwC3872n1WYlYnTWhZQpQp4ddsBeSfgtDKeCBlMG7b/pub?start=false&loop=false&delayms=3000
+<img src="https://bafybeiduoc25kbwj3unyu62efzvscedijxaxvo4yfkha4snjjtebcyzpry.ipfs.nftstorage.link/" width="400" height="225" />
+
 
 #### Flash Raffle is an on-chain lottery with a twist!  10% of all mint fees go directly to Optimism Collective's retroPGF.eth address. Users mint TIX NFTs to be burned at a later date in exchange for envelopes with random prizes inside.
 
