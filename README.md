@@ -6,11 +6,10 @@
 🔒Token Gated Telegram
 🔥Burn2Earn
 
+## Built for Encode Metaverse Hackathon!
 Live at (https://flashraffle.xyz)
 
 <img src="https://bafybeiduoc25kbwj3unyu62efzvscedijxaxvo4yfkha4snjjtebcyzpry.ipfs.nftstorage.link/" width="400" height="225" />
-
-## Built for Encode Metaverse Hackathon!
 
 #### Flash Raffle is an on-chain lottery with a twist!  10% of all mint fees go directly to Optimism Collective's retroPGF.eth address. Users mint TIX NFTs to be burned at a later date in exchange for envelopes with random prizes inside.
 
