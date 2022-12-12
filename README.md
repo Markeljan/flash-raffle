@@ -9,6 +9,7 @@
 ## Built for Encode Metaverse Hackathon!
 Live at (https://flashraffle.xyz)
 Slide Deck: https://docs.google.com/presentation/d/e/2PACX-1vTOd7tPTZaKX0gB-nEs89g4I7TUa19b3J--nMzwC3872n1WYlYnTWhZQpQp4ddsBeSfgtDKeCBlMG7b/pub?start=false&loop=false&delayms=3000
+
 <img src="https://bafybeiduoc25kbwj3unyu62efzvscedijxaxvo4yfkha4snjjtebcyzpry.ipfs.nftstorage.link/" width="400" height="225" />
 
 
