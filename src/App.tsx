@@ -1,13 +1,19 @@
 import { Box, Link, Typography } from "@mui/material";
 import Nav from "./components/Nav";
 import BoxButtons from "./components/BoxButtons";
-import { FLASH_RAFFLE_ABI, FLASH_RAFFLE_ADDRESS } from "./constants/contractData";
+import {
+  FLASH_RAFFLE_ABI,
+  FLASH_RAFFLE_ADDRESS,
+  RETROPGF_ABI,
+  RETROPGF_ADDRESS,
+} from "./constants/contractData";
 import { useAccount, useContract, useProvider, useSigner, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import { MainContext } from "./contexts/MainContext";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { ethers } from "ethers";
 
 function App() {
   const { address } = useAccount();
@@ -23,6 +29,16 @@ function App() {
     abi: FLASH_RAFFLE_ABI,
     signerOrProvider: signer,
   });
+  const RETROPGF_READ = useContract({
+    address: RETROPGF_ADDRESS,
+    abi: RETROPGF_ABI,
+    signerOrProvider: provider,
+  });
+  const RETROPGF_WRITE = useContract({
+    address: RETROPGF_ADDRESS,
+    abi: RETROPGF_ABI,
+    signerOrProvider: signer,
+  });
 
   const [latestTxHash, setLatestTxHash] = useState<any>();
   const { data, isError, isLoading } = useWaitForTransaction({
@@ -32,6 +48,7 @@ function App() {
 
   const [mintPrice, setMintPrice] = useState(0);
   const [jackpot, setJackpot] = useState(0);
+  const [totalDonated, setTotalDonated] = useState("");
 
   const contextData = {
     address,
@@ -47,6 +64,7 @@ function App() {
     setLatestTxHash,
     mintPrice,
     jackpot,
+    totalDonated,
   };
 
   useEffect(() => {
@@ -77,6 +95,25 @@ function App() {
 
     FLASH_RAFFLE_READ && fetchContractData();
   }, [FLASH_RAFFLE_WRITE, data, latestTxHash]);
+
+  useEffect(() => {
+    async function fetchContractData() {
+      if (!RETROPGF_READ) return;
+      let events = await RETROPGF_READ.queryFilter("ReceivedETH", 44811898, "latest");
+
+      let tempDonated = 0;
+      events.map((event) => {
+        if (event.args?.from === FLASH_RAFFLE_ADDRESS) {
+          tempDonated += Number(event.args?.amount);
+        }
+      });
+      //normalize to ETH
+      let tempDonatedString = ethers.utils.formatEther(tempDonated);
+      setTotalDonated(tempDonatedString);
+    }
+
+    RETROPGF_READ && fetchContractData();
+  }, [RETROPGF_READ, data, latestTxHash]);
 
   return (
     <>

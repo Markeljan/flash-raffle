@@ -68,9 +68,14 @@ contract FlashRaffle is
             _setTokenURI(tokenId, tixUris[randomIndex]);
         }
 
-        createEnvelopes((msg.value * 90) / 100);
+        createEnvelopes((msg.value * 80) / 100);
         jackpotValue += (msg.value * 10) / 100;
         mintPrice = (mintPrice * 110) / 100;
+        //
+        //10 % donation to Optimism retroPGF.eth
+        payable(0x15DdA60616Ffca20371ED1659dBB78E888f65556).transfer(
+            (msg.value * 10) / 100
+        );
     }
 
     function totalValueInEnvelopes() public view returns (uint256) {
